@@ -38,9 +38,9 @@ public class MenuVehiculo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtDireccion);
-        txtDireccion.setBounds(93, 58, 170, 22);
+        txtDireccion.setBounds(93, 58, 170, 27);
         getContentPane().add(txtModelo);
-        txtModelo.setBounds(93, 86, 170, 22);
+        txtModelo.setBounds(93, 86, 170, 27);
 
         lstVehiculos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -50,29 +50,29 @@ public class MenuVehiculo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstVehiculos);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(340, 30, 125, 146);
+        jScrollPane1.setBounds(320, 30, 240, 158);
         getContentPane().add(txtEstado);
-        txtEstado.setBounds(93, 114, 170, 22);
+        txtEstado.setBounds(93, 114, 170, 27);
 
         lblVehiuculos.setText("Vehículos");
         getContentPane().add(lblVehiuculos);
-        lblVehiuculos.setBounds(340, 6, 70, 16);
+        lblVehiuculos.setBounds(410, 10, 60, 17);
 
         lblMatricula.setText("Matricula");
         getContentPane().add(lblMatricula);
-        lblMatricula.setBounds(24, 33, 57, 16);
+        lblMatricula.setBounds(24, 33, 57, 17);
 
         lblMarca.setText("Marca");
         getContentPane().add(lblMarca);
-        lblMarca.setBounds(24, 61, 57, 16);
+        lblMarca.setBounds(24, 61, 57, 17);
 
         lblCelular.setText("Modelo");
         getContentPane().add(lblCelular);
-        lblCelular.setBounds(24, 89, 51, 16);
+        lblCelular.setBounds(24, 89, 51, 17);
 
         lblEstado.setText("Estado");
         getContentPane().add(lblEstado);
-        lblEstado.setBounds(24, 117, 51, 16);
+        lblEstado.setBounds(24, 117, 51, 17);
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,7 +80,7 @@ public class MenuVehiculo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(93, 30, 170, 22);
+        txtNombre.setBounds(93, 30, 170, 27);
 
         btnVaciar.setText("Vaciar");
         btnVaciar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,15 +89,15 @@ public class MenuVehiculo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVaciar);
-        btnVaciar.setBounds(20, 270, 90, 23);
+        btnVaciar.setBounds(20, 270, 90, 27);
 
         btnAgregar.setText("Agrergar");
         getContentPane().add(btnAgregar);
-        btnAgregar.setBounds(130, 270, 90, 23);
+        btnAgregar.setBounds(130, 270, 90, 27);
 
         btnRegistrar1.setText("Eliminar");
         getContentPane().add(btnRegistrar1);
-        btnRegistrar1.setBounds(340, 274, 100, 23);
+        btnRegistrar1.setBounds(340, 274, 100, 27);
 
         setBounds(0, 0, 581, 361);
     }// </editor-fold>//GEN-END:initComponents

@@ -47,7 +47,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(170, 50, 200, 27);
+        txtNombre.setBounds(140, 50, 230, 27);
 
         txtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,11 +55,11 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtDireccion);
-        txtDireccion.setBounds(170, 140, 200, 27);
+        txtDireccion.setBounds(140, 140, 230, 27);
         getContentPane().add(txtCelular);
-        txtCelular.setBounds(170, 180, 200, 27);
+        txtCelular.setBounds(140, 190, 230, 27);
         getContentPane().add(txtAnoDeIngreso);
-        txtAnoDeIngreso.setBounds(170, 230, 200, 27);
+        txtAnoDeIngreso.setBounds(140, 230, 230, 27);
 
         lblNombre.setText("Nombre");
         getContentPane().add(lblNombre);
@@ -78,12 +78,17 @@ public class MenuCliente extends javax.swing.JFrame {
         lblAnoDeIngreso.setBounds(30, 230, 120, 17);
 
         lblEliminar.setText("Eliminar");
+        lblEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblEliminarActionPerformed(evt);
+            }
+        });
         getContentPane().add(lblEliminar);
         lblEliminar.setBounds(350, 300, 90, 27);
 
         lblCliente.setText("Clientes");
         getContentPane().add(lblCliente);
-        lblCliente.setBounds(390, 50, 80, 17);
+        lblCliente.setBounds(400, 50, 80, 17);
 
         lblCedula.setText("Cédula");
         getContentPane().add(lblCedula);
@@ -95,7 +100,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtCedula);
-        txtCedula.setBounds(170, 90, 200, 27);
+        txtCedula.setBounds(140, 90, 230, 27);
 
         lstClientes.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -105,7 +110,7 @@ public class MenuCliente extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstClientes);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(390, 90, 320, 160);
+        jScrollPane2.setBounds(400, 90, 320, 160);
 
         btnAgregar1.setText("Agrergar");
         btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +159,10 @@ public class MenuCliente extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Error en los datos numéricos. Verificá cédula, celular y año.");
             }
     }//GEN-LAST:event_btnAgregar1ActionPerformed
+
+    private void lblEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblEliminarActionPerformed
 
     private void actualizarListaClientes() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
