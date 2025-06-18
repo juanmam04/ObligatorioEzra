@@ -1,0 +1,13 @@
+# Archivos y carpetas de NetBeans
+nbproject/private/
+
+# Build de Java
+/build/
+/dist/
+
+# Archivos del sistema (Mac)
+.DS_Store
+
+# Otros
+*.class
+
