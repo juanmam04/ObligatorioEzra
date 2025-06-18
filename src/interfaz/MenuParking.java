@@ -1,8 +1,13 @@
 package interfaz;
 
+import dominio.Sistema;
+
 public class MenuParking extends javax.swing.JFrame {
 
+    private Sistema sistema;
+
     public MenuParking() {
+        sistema = new Sistema();
         initComponents();
     }
 
@@ -198,7 +203,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmGestionDeContratosActionPerformed
 
     private void itmGestionDeClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGestionDeClientesActionPerformed
-        MenuCliente menu = new MenuCliente();
+        MenuCliente menu = new MenuCliente(sistema);
         menu.setVisible(true);
     }//GEN-LAST:event_itmGestionDeClientesActionPerformed
 

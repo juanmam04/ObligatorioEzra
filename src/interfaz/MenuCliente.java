@@ -1,14 +1,20 @@
 //Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
 
 package interfaz;
-public class MenuCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuCliente
-     */
-    public MenuCliente() {
+import dominio.Sistema;
+import dominio.Cliente;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
+public class MenuCliente extends javax.swing.JFrame {
+    
+    private Sistema sistema;
+    
+    public MenuCliente(Sistema unSistema) {
+        this.sistema = unSistema;
         initComponents();
-        setLocationRelativeTo(null);
+        actualizarListaClientes();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,7 +34,7 @@ public class MenuCliente extends javax.swing.JFrame {
         lblCedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstCliente = new javax.swing.JList<>();
+        lstClientes = new javax.swing.JList<>();
         btnAgregar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -41,7 +47,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(120, 50, 200, 22);
+        txtNombre.setBounds(170, 50, 200, 27);
 
         txtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -49,39 +55,39 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtDireccion);
-        txtDireccion.setBounds(120, 140, 200, 22);
+        txtDireccion.setBounds(170, 140, 200, 27);
         getContentPane().add(txtCelular);
-        txtCelular.setBounds(120, 180, 200, 22);
+        txtCelular.setBounds(170, 180, 200, 27);
         getContentPane().add(txtAnoDeIngreso);
-        txtAnoDeIngreso.setBounds(120, 230, 200, 22);
+        txtAnoDeIngreso.setBounds(170, 230, 200, 27);
 
         lblNombre.setText("Nombre");
         getContentPane().add(lblNombre);
-        lblNombre.setBounds(30, 50, 50, 16);
+        lblNombre.setBounds(30, 50, 110, 17);
 
         lblDireccion.setText("Dirección");
         getContentPane().add(lblDireccion);
-        lblDireccion.setBounds(30, 140, 50, 16);
+        lblDireccion.setBounds(30, 140, 110, 17);
 
         lblCelular.setText("Celular");
         getContentPane().add(lblCelular);
-        lblCelular.setBounds(30, 190, 44, 16);
+        lblCelular.setBounds(30, 190, 80, 17);
 
         lblAnoDeIngreso.setText("Año de ingreso");
         getContentPane().add(lblAnoDeIngreso);
-        lblAnoDeIngreso.setBounds(30, 230, 90, 16);
+        lblAnoDeIngreso.setBounds(30, 230, 120, 17);
 
         lblEliminar.setText("Eliminar");
         getContentPane().add(lblEliminar);
-        lblEliminar.setBounds(350, 300, 90, 23);
+        lblEliminar.setBounds(350, 300, 90, 27);
 
         lblCliente.setText("Clientes");
         getContentPane().add(lblCliente);
-        lblCliente.setBounds(350, 50, 80, 16);
+        lblCliente.setBounds(390, 50, 80, 17);
 
         lblCedula.setText("Cédula");
         getContentPane().add(lblCedula);
-        lblCedula.setBounds(30, 90, 51, 20);
+        lblCedula.setBounds(30, 90, 100, 20);
 
         txtCedula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,17 +95,17 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtCedula);
-        txtCedula.setBounds(120, 90, 200, 22);
+        txtCedula.setBounds(170, 90, 200, 27);
 
-        lstCliente.setModel(new javax.swing.AbstractListModel<String>() {
+        lstClientes.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(lstCliente);
+        jScrollPane2.setViewportView(lstClientes);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(350, 90, 240, 160);
+        jScrollPane2.setBounds(390, 90, 320, 160);
 
         btnAgregar1.setText("Agrergar");
         btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
@@ -108,9 +114,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAgregar1);
-        btnAgregar1.setBounds(240, 300, 90, 23);
+        btnAgregar1.setBounds(240, 300, 90, 27);
 
-        setBounds(0, 0, 649, 406);
+        setBounds(0, 0, 755, 406);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -126,43 +132,79 @@ public class MenuCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            String nombre = txtNombre.getText().trim();
+            String direccion = txtDireccion.getText().trim();
+            int celular = Integer.parseInt(txtCelular.getText().trim());
+            int cedula = Integer.parseInt(txtCedula.getText().trim());
+            int anho = Integer.parseInt(txtAnoDeIngreso.getText().trim());
+            
+            Cliente nuevo = new Cliente(nombre, direccion, celular, cedula, anho);
+            
+            if (sistema.agregarCliente(nuevo)) {
+                JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
+                actualizarListaClientes(); // lo hacemos abajo
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un cliente con esa cédula.");
+            }
+            
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error en los datos numéricos. Verificá cédula, celular y año.");
+            }
     }//GEN-LAST:event_btnAgregar1ActionPerformed
 
+    private void actualizarListaClientes() {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for (Cliente unCliente : sistema.getListaClientes()) {
+            modelo.addElement(unCliente.toString());
+        }
+        lstClientes.setModel(modelo);
+    }
+    
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtCelular.setText("");
+        txtCedula.setText("");
+        txtAnoDeIngreso.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuCliente().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new MenuCliente().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar1;
@@ -174,7 +216,7 @@ public class MenuCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lblDireccion;
     private javax.swing.JButton lblEliminar;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JList<String> lstCliente;
+    private javax.swing.JList<String> lstClientes;
     private javax.swing.JTextField txtAnoDeIngreso;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;

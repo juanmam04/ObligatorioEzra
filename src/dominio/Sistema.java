@@ -26,11 +26,14 @@ public class Sistema {
         
     }
     
+    public ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+    
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
     
     // Clientes
-    
-    boolean agregarCliente(Cliente unCliente){
+    public boolean agregarCliente(Cliente unCliente) {
         if (buscarClientePorCedula(unCliente.getCedula()) == null) {
             listaClientes.add(unCliente);
             return true;
@@ -38,7 +41,7 @@ public class Sistema {
         return false;
     }
 
-    public boolean eliminarClientePorCedula(int unaCedula){
+    public boolean eliminarClientePorCedula(int unaCedula) {
         Cliente cliente = buscarClientePorCedula(unaCedula);
         if (cliente != null) {
 //            eliminarContratosDeCliente(cliente); // borra sus contratos también
@@ -48,9 +51,11 @@ public class Sistema {
         return false;
     }
 
-    public Cliente buscarClientePorCedula(int unaCedula){
+    public Cliente buscarClientePorCedula(int unaCedula) {
         for (Cliente cliente : listaClientes) {
-            if (cliente.getCedula() == unaCedula) return cliente;
+            if (cliente.getCedula() == unaCedula) {
+                return cliente;
+            }
         }
         return null;
     }
@@ -105,7 +110,7 @@ public class Sistema {
 //    }
 //    
 //    ArrayList<ServicioAdicional> obtenerServiciosDeVehiculo(Vehiculo unVehiculo){
-//        
-//    }
-
+//        
+//    }
+    
 }
