@@ -29,7 +29,7 @@ public class MenuCliente extends javax.swing.JFrame {
         lblDireccion = new javax.swing.JLabel();
         lblCelular = new javax.swing.JLabel();
         lblAnoDeIngreso = new javax.swing.JLabel();
-        lblEliminar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         lblCliente = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
@@ -77,14 +77,14 @@ public class MenuCliente extends javax.swing.JFrame {
         getContentPane().add(lblAnoDeIngreso);
         lblAnoDeIngreso.setBounds(30, 230, 120, 17);
 
-        lblEliminar.setText("Eliminar");
-        lblEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblEliminarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(lblEliminar);
-        lblEliminar.setBounds(350, 300, 90, 27);
+        getContentPane().add(btnEliminar);
+        btnEliminar.setBounds(350, 300, 90, 27);
 
         lblCliente.setText("Clientes");
         getContentPane().add(lblCliente);
@@ -160,9 +160,28 @@ public class MenuCliente extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_btnAgregar1ActionPerformed
 
-    private void lblEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblEliminarActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int indiceSeleccionado = lstClientes.getSelectedIndex(); // Agarra el cliente seleccionado en la lista
+        
+        if (indiceSeleccionado == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente para eliminar.");
+            return;
+        }
+        
+        Cliente clienteSeleccionado = sistema.getListaClientes().get(indiceSeleccionado); // Busca el cliente en la lista y lo selecciona
+        
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+            "¿Está seguro que desea eliminar al cliente:\n" + clienteSeleccionado.getNombre() + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            sistema.eliminarClientePorCedula(clienteSeleccionado.getCedula());
+            actualizarListaClientes();
+            JOptionPane.showMessageDialog(this, "Cliente eliminado: " + clienteSeleccionado.getNombre());
+
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void actualizarListaClientes() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -217,13 +236,13 @@ public class MenuCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar1;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAnoDeIngreso;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblCelular;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblDireccion;
-    private javax.swing.JButton lblEliminar;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JList<String> lstClientes;
     private javax.swing.JTextField txtAnoDeIngreso;
