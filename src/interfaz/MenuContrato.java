@@ -2,11 +2,24 @@
 
 package interfaz;
 
-public class MenuContrato extends javax.swing.JFrame {
+import dominio.Sistema;
+import dominio.Cliente;
+import dominio.Contrato;
+import dominio.Empleado;
+import dominio.Vehiculo;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
-    public MenuContrato() {
+public class MenuContrato extends javax.swing.JFrame {
+    
+    private Sistema sistema;
+
+    public MenuContrato(Sistema unSistema) {
+        this.sistema = unSistema;
         initComponents();
         setLocationRelativeTo(null);
+        actualizarListaContratos();
+        actualizarListas();
     }
 
     @SuppressWarnings("unchecked")
@@ -124,46 +137,87 @@ public class MenuContrato extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        int index = lstContratos.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un contrato para eliminar.");
+            return;
+        }
+
+        Contrato contratoSeleccionado = sistema.getListaContratos().get(index);
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "¿Está seguro que desea eliminar el contrato #" + contratoSeleccionado.getNumero() + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            sistema.eliminarContrato(contratoSeleccionado);
+            actualizarListaContratos();
+            JOptionPane.showMessageDialog(this, "Contrato eliminado.");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
-        // TODO add your handling code here:
+        int indexCliente = lstClientes.getSelectedIndex();
+        int indexVehiculo = lstVehiculos.getSelectedIndex();
+        int indexEmpleado = lstEmpleados.getSelectedIndex();
+
+        if (indexCliente == -1 || indexVehiculo == -1 || indexEmpleado == -1) {
+            JOptionPane.showMessageDialog(this, "Debés seleccionar un cliente, un vehículo y un empleado.");
+            return;
+        }
+
+        String valor = txtValorMensual.getText().trim();
+        if (valor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingresá un valor mensual.");
+            return;
+        }
+
+        try {
+            Double.parseDouble(valor); // validación mínima del valor numérico
+            Vehiculo vehiculoSeleccionado = sistema.getListaVehiculos().get(indexVehiculo);
+            Empleado empleadoSeleccionado = sistema.getListaEmpleados().get(indexEmpleado);
+            Cliente clienteSeleccionado = sistema.getListaClientes().get(indexCliente);
+            Contrato nuevo = new Contrato(clienteSeleccionado, vehiculoSeleccionado, empleadoSeleccionado, valor);
+
+            if (sistema.agregarContrato(nuevo)) {
+                JOptionPane.showMessageDialog(this, "Contrato registrado correctamente.");
+                actualizarListaContratos();
+                lblNumeroDeContrato.setText("Número de contrato: " + (nuevo.getNumero() + 1));
+                txtValorMensual.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un contrato con ese vehículo.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Valor mensual inválido.");
+        }
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuContrato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuContrato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuContrato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuContrato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void actualizarListaContratos() {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for (Contrato contrato : sistema.getListaContratos()) {
+            modelo.addElement(contrato.toString());
         }
-        //</editor-fold>
+        lstContratos.setModel(modelo);
+    }
+    
+    private void actualizarListas() {
+        DefaultListModel<String> modeloClientes = new DefaultListModel<>();
+        for (Cliente cliente : sistema.getListaClientes()) {
+            modeloClientes.addElement(cliente.getNombre().toUpperCase());
+        }
+        lstClientes.setModel(modeloClientes);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuContrato().setVisible(true);
-            }
-        });
+        DefaultListModel<String> modeloVehiculos = new DefaultListModel<>();
+        for (Vehiculo vehiculo : sistema.getListaVehiculos()) {
+            modeloVehiculos.addElement(vehiculo.getMatricula().toUpperCase());
+        }
+        lstVehiculos.setModel(modeloVehiculos);
+
+        DefaultListModel<String> modeloEmpleados = new DefaultListModel<>();
+        for (Empleado empleado : sistema.getListaEmpleados()) {
+            modeloEmpleados.addElement(empleado.getNombre().toUpperCase());
+        }
+        lstEmpleados.setModel(modeloEmpleados);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

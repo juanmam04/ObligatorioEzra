@@ -3,51 +3,67 @@ package dominio;
 
 public class Contrato {
 
-    private static int contador = 1; // Para numerar los contratos
+    private static int contador = 1;
     private int numero;
-    private Vehiculo vehiculo; // Objeto de vehiculo
-    private Empleado empleado; // Objeto de empleado
+    private Cliente cliente;
+    private Vehiculo vehiculo;
+    private Empleado empleado;
     private String valor;
 
-    public Contrato(Vehiculo vehiculo, Empleado empleado, String valor) {
+    public Contrato(Cliente cliente, Vehiculo vehiculo, Empleado empleado, String valor) {
         this.numero = contador++;
+        this.cliente = cliente;
         this.vehiculo = vehiculo;
         this.empleado = empleado;
         this.valor = valor;
     }
 
-    // Getters y setters
+    // Getters
     public int getNumero() {
         return numero;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
 
-    public void setVehiculo(Vehiculo unVehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
     public Empleado getEmpleado() {
         return empleado;
-    }
-
-    public void setEmpleado(Empleado unEmpleado) {
-        this.empleado = empleado;
     }
 
     public String getValor() {
         return valor;
     }
 
-    public void setValor(String unValor) {
-        valor = unValor;
+    // Setters
+    public void setCliente(Cliente unCliente) {
+        this.cliente = unCliente;
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("Contrato #%d - Vehículo: %s - Empleado: %s - Valor mensual: %.2f",
-//                numero, vehiculo.getMatricula(), empleado.getNombre(), valor);
-}    
-//}
+    public void setVehiculo(Vehiculo unVehiculo) {
+        this.vehiculo = unVehiculo;
+    }
+
+    public void setEmpleado(Empleado unEmpleado) {
+        this.empleado = unEmpleado;
+    }
+
+    public void setValor(String unValor) {
+        this.valor = unValor;
+    }
+
+    @Override
+    public String toString() {
+        return "<html>" +
+               "Contrato #" + numero + "<br>" +
+               "Cliente: " + cliente.getNombre().toUpperCase() + "<br>" +
+               "Vehículo: " + vehiculo.getMatricula().toUpperCase() + "<br>" +
+               "Empleado: " + empleado.getNombre().toUpperCase() + "<br>" +
+               "Valor mensual: " + valor +
+               "</html>";
+    }
+}

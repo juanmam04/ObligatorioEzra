@@ -40,6 +40,10 @@ public class Sistema {
         return listaVehiculos;
     }
     
+    public ArrayList<Contrato> getListaContratos() {
+        return listaContratos;
+    }
+    
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
     
     // Clientes
@@ -54,7 +58,7 @@ public class Sistema {
     public boolean eliminarClientePorCedula(int unaCedula) {
         Cliente cliente = buscarClientePorCedula(unaCedula);
         if (cliente != null) {
-//            eliminarContratosDeCliente(cliente); // borra sus contratos también
+            eliminarContratosDeCliente(cliente); // borra sus contratos también
             listaClientes.remove(cliente);
             return true;
         }
@@ -118,23 +122,33 @@ public class Sistema {
     public void vaciarListaEmpleados() {
         listaEmpleados.clear();
     }
+    
+    // Contratos
+    public boolean agregarContrato(Contrato unContrato) {
+        for (Contrato contrato : listaContratos) {
+            if (contrato.getVehiculo().getMatricula().equalsIgnoreCase(unContrato.getVehiculo().getMatricula())) {
+                return false;
+            }
+        }
+        listaContratos.add(unContrato);
+        return true;
+    }
+    
+    public boolean eliminarContrato(Contrato unContrato) {
+        return listaContratos.remove(unContrato);
+    }
+    
+    public void eliminarContratosDeCliente(Cliente unCliente) {
+        ArrayList<Contrato> aEliminar = new ArrayList<>();
+        for (Contrato contrato : listaContratos) {
+            Vehiculo veh = contrato.getVehiculo();
+            if (listaVehiculos.contains(veh)) {
+                aEliminar.add(contrato);
+            }
+        }
+        listaContratos.removeAll(aEliminar);
+    }
 
-    
-    
-//    
-//    // Contratos
-//    boolean agregarContrato(Contrato unContrato){
-//        
-//    }
-//            
-//    ArrayList<Contrato> obtenerContratosPorCliente(Cliente unCliente){
-//        
-//    }
-//    
-//    boolean eliminarContratosDeCliente(Cliente unCliente){
-//        
-//    }
-//
 //    // Entradas y salidas
 //    boolean agregarEntrada(Entrada unaEntrada){
 //        

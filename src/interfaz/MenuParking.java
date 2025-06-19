@@ -198,7 +198,7 @@ public class MenuParking extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itmGestionDeContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGestionDeContratosActionPerformed
-        MenuContrato menu = new MenuContrato();
+        MenuContrato menu = new MenuContrato(sistema);
         menu.setVisible(true);
     }//GEN-LAST:event_itmGestionDeContratosActionPerformed
 
