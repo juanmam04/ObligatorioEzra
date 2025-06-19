@@ -61,13 +61,22 @@ public class Sistema {
     }
 
 //    // Vehículos
-//    boolean agregarVehiculo(Vehiculo unVehiculo){
-//        
-//    }
-//
-//    Vehiculo buscarVehiculoPorMatricula(String unaMatricula){
-//        
-//    }
+    public boolean agregarVehiculo(Vehiculo unVehiculo) {
+        if (buscarVehiculoPorMatricula(unVehiculo.getMatricula()) == null) {
+            listaVehiculos.add(unVehiculo);
+            return true;
+        }
+        return false;
+    }
+
+    public Vehiculo buscarVehiculoPorMatricula(String unaMatricula) {
+        for (Vehiculo vehiculo : listaVehiculos) {
+            if (vehiculo.getMatricula().equalsIgnoreCase(unaMatricula)) {
+                return vehiculo;
+            }
+        }
+        return null;
+    }
 //
 //    // Empleados
 //    boolean agregarEmpleado(Empleado unEmpleado){

@@ -15,6 +15,22 @@ public class MenuCliente extends javax.swing.JFrame {
         this.sistema = unSistema;
         initComponents();
         actualizarListaClientes();
+
+        lstClientes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                int index = lstClientes.getSelectedIndex();
+                if (index != -1) {
+                    Cliente clienteSeleccionado = sistema.getListaClientes().get(index);
+                    lblInfoClienteSeleccionado.setText(
+                        "<html>Nombre: " + clienteSeleccionado.getNombre().toUpperCase() +
+                        "<br>Dirección: " + clienteSeleccionado.getDireccion().toUpperCase() +
+                        "<br>Cédula: " + clienteSeleccionado.getCedula() +
+                        "<br>Celular: " + clienteSeleccionado.getCelular() +
+                        "<br>Año ingreso: " + clienteSeleccionado.getAnoIngreso() + "</html>"
+                    );
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -30,12 +46,13 @@ public class MenuCliente extends javax.swing.JFrame {
         lblCelular = new javax.swing.JLabel();
         lblAnoDeIngreso = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
-        lblCliente = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstClientes = new javax.swing.JList<>();
         btnAgregar1 = new javax.swing.JButton();
+        lblInfoClienteSeleccionado = new javax.swing.JLabel();
+        lblCliente1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de clientes");
@@ -84,11 +101,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(350, 300, 90, 27);
-
-        lblCliente.setText("Clientes");
-        getContentPane().add(lblCliente);
-        lblCliente.setBounds(400, 50, 80, 17);
+        btnEliminar.setBounds(200, 320, 90, 27);
 
         lblCedula.setText("Cédula");
         getContentPane().add(lblCedula);
@@ -112,16 +125,24 @@ public class MenuCliente extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(400, 90, 320, 160);
 
-        btnAgregar1.setText("Agrergar");
+        btnAgregar1.setText("Agregar");
         btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregar1ActionPerformed(evt);
             }
         });
         getContentPane().add(btnAgregar1);
-        btnAgregar1.setBounds(240, 300, 90, 27);
+        btnAgregar1.setBounds(90, 320, 90, 27);
 
-        setBounds(0, 0, 755, 406);
+        lblInfoClienteSeleccionado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(lblInfoClienteSeleccionado);
+        lblInfoClienteSeleccionado.setBounds(430, 280, 250, 190);
+
+        lblCliente1.setText("Clientes");
+        getContentPane().add(lblCliente1);
+        lblCliente1.setBounds(400, 50, 80, 17);
+
+        setBounds(0, 0, 740, 527);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -171,22 +192,23 @@ public class MenuCliente extends javax.swing.JFrame {
         Cliente clienteSeleccionado = sistema.getListaClientes().get(indiceSeleccionado); // Busca el cliente en la lista y lo selecciona
         
         int confirmacion = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro que desea eliminar al cliente:\n" + clienteSeleccionado.getNombre() + "?",
+            "¿Está seguro que desea eliminar al cliente:\n" + clienteSeleccionado.getNombre().toUpperCase() + "?",
             "Confirmar eliminación",
             JOptionPane.YES_NO_OPTION);
         
         if (confirmacion == JOptionPane.YES_OPTION) {
             sistema.eliminarClientePorCedula(clienteSeleccionado.getCedula());
             actualizarListaClientes();
-            JOptionPane.showMessageDialog(this, "Cliente eliminado: " + clienteSeleccionado.getNombre());
+            JOptionPane.showMessageDialog(this, "Cliente eliminado: " + clienteSeleccionado.getNombre().toUpperCase());
 
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    
     private void actualizarListaClientes() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
         for (Cliente unCliente : sistema.getListaClientes()) {
-            modelo.addElement(unCliente.toString());
+            modelo.addElement(unCliente.getNombre().toUpperCase());
         }
         lstClientes.setModel(modelo);
     }
@@ -241,8 +263,9 @@ public class MenuCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lblAnoDeIngreso;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblCelular;
-    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblCliente1;
     private javax.swing.JLabel lblDireccion;
+    private javax.swing.JLabel lblInfoClienteSeleccionado;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JList<String> lstClientes;
     private javax.swing.JTextField txtAnoDeIngreso;
