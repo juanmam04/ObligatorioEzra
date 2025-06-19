@@ -26,8 +26,14 @@ public class Sistema {
         
     }
     
+    // getters de listas
+    
     public ArrayList<Cliente> getListaClientes() {
         return listaClientes;
+    }
+    
+    public ArrayList<Empleado> getListaEmpleados() {
+        return listaEmpleados;
     }
     
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
@@ -86,15 +92,30 @@ public class Sistema {
         }
         return false;
     }
+    
+    public boolean eliminarEmpleadoPorCedula(int unaCedula) {
+        Empleado empleado = buscarEmpleadoPorCedula(unaCedula);
+        if (empleado != null) {
+            listaEmpleados.remove(empleado);
+            return true;
+        }
+        return false;
+    }
 
     public Empleado buscarEmpleadoPorCedula(int unaCedula) {
-        for (Empleado emp : listaEmpleados) {
-            if (emp.getCedula() == unaCedula) {
-                return emp;
+        for (Empleado empleado : listaEmpleados) {
+            if (empleado.getCedula() == unaCedula) {
+                return empleado;
             }
         }
         return null;
     }
+    
+    public void vaciarListaEmpleados() {
+        listaEmpleados.clear();
+    }
+
+    
     
 //    
 //    // Contratos

@@ -7,14 +7,14 @@ public class Empleado {
     private String nombre;
     private int cedula;
     private String direccion;
-    private int numEmpleado;
+    private int numeroEmp;
 
     //Constructor
-    public Empleado(String unNombre, int unaCedula, String unaDireccion, int numEmpleado) {
+    public Empleado(String unNombre, int unaCedula, String unaDireccion, int unNumeroEmp) {
         this.setNombre(unNombre);
         this.setCedula(unaCedula);
         this.setDireccion(unaDireccion);
-        //this.setNumEmpleado(unNumEmpleado);
+        this.setNumeroEmp(unNumeroEmp);
     }
 
     //Metodos de acceso y modificacion
@@ -42,16 +42,21 @@ public class Empleado {
         direccion = unaDireccion;
     }
 
-    public int getNumEmpleado() {
-        return numEmpleado;
+    public int getNumeroEmp() {
+        return numeroEmp;
     }
 
-    public void setNumEmpleado(int unNumEmpleado) {
-        numEmpleado = unNumEmpleado;
+    public void setNumeroEmp(int unNumeroEmp) {
+        numeroEmp = unNumeroEmp;
     }
 
     @Override
     public String toString() {
-        return "Nombre" + this.getNombre() + " - Cedula" + this.getCedula() + " - Direccion" + this.getDireccion() + " - Numero de empleado " + this.getNumEmpleado();
+        return "<html>" +
+               "Nombre: " + nombre.toUpperCase() + "<br>" +
+               "Cédula: " + cedula + "<br>" +
+               "Dirección: " + direccion.toUpperCase() + "<br>" +
+               "Número de empleado: " + numeroEmp +
+               "</html>";
     }
 }
