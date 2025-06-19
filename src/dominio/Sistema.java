@@ -36,6 +36,10 @@ public class Sistema {
         return listaEmpleados;
     }
     
+    public ArrayList<Vehiculo> getListaVehiculos() {
+        return listaVehiculos;
+    }
+    
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
     
     // Clientes

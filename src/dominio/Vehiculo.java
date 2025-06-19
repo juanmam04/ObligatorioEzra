@@ -48,11 +48,12 @@ public class Vehiculo {
     }
 
     @Override
-
     public String toString() {
-        return "Matrícula: " + this.getMatricula()
-                + " - Marca: " + this.getMarca()
-                + " - Modelo: " + this.getModelo()
-                + " - Estado: " + this.getEstado();
+        return "<html>" +
+               "Matrícula: " + this.getMatricula().toUpperCase() + "<br>" +
+               "Marca: " + this.getMarca().toUpperCase() + "<br>" +
+               "Modelo: " + this.getModelo() + "<br>" +
+               "Estado: " + this.getEstado().toUpperCase() +
+               "</html>";
     }
 }

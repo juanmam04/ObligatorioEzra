@@ -208,7 +208,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmGestionDeClientesActionPerformed
 
     private void itmGestionDeVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGestionDeVehiculosActionPerformed
-        MenuVehiculo menu = new MenuVehiculo();
+        MenuVehiculo menu = new MenuVehiculo(sistema);
         menu.setVisible(true);
     }//GEN-LAST:event_itmGestionDeVehiculosActionPerformed
 

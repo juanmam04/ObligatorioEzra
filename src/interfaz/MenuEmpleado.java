@@ -169,9 +169,9 @@ public class MenuEmpleado extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Ya existe un empleado con esa cédula.");
             }
             
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Error en los datos numéricos. Verificá cédula y número de empleado.");
-            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en los datos numéricos. Verificá cédula y número de empleado.");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEmpActionPerformed
