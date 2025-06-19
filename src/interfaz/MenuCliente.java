@@ -21,13 +21,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 int index = lstClientes.getSelectedIndex();
                 if (index != -1) {
                     Cliente clienteSeleccionado = sistema.getListaClientes().get(index);
-                    lblInfoClienteSeleccionado.setText(
-                        "<html>Nombre: " + clienteSeleccionado.getNombre().toUpperCase() +
-                        "<br>Dirección: " + clienteSeleccionado.getDireccion().toUpperCase() +
-                        "<br>Cédula: " + clienteSeleccionado.getCedula() +
-                        "<br>Celular: " + clienteSeleccionado.getCelular() +
-                        "<br>Año ingreso: " + clienteSeleccionado.getAnoIngreso() + "</html>"
-                    );
+                    lblInfoClienteSeleccionado.setText(clienteSeleccionado.toString());
                 }
             }
         });
@@ -64,7 +58,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(140, 50, 230, 27);
+        txtNombre.setBounds(140, 60, 230, 27);
 
         txtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,13 +68,13 @@ public class MenuCliente extends javax.swing.JFrame {
         getContentPane().add(txtDireccion);
         txtDireccion.setBounds(140, 140, 230, 27);
         getContentPane().add(txtCelular);
-        txtCelular.setBounds(140, 190, 230, 27);
+        txtCelular.setBounds(140, 180, 230, 27);
         getContentPane().add(txtAnoDeIngreso);
-        txtAnoDeIngreso.setBounds(140, 230, 230, 27);
+        txtAnoDeIngreso.setBounds(140, 220, 230, 27);
 
         lblNombre.setText("Nombre");
         getContentPane().add(lblNombre);
-        lblNombre.setBounds(30, 50, 110, 17);
+        lblNombre.setBounds(30, 60, 110, 17);
 
         lblDireccion.setText("Dirección");
         getContentPane().add(lblDireccion);
@@ -88,11 +82,11 @@ public class MenuCliente extends javax.swing.JFrame {
 
         lblCelular.setText("Celular");
         getContentPane().add(lblCelular);
-        lblCelular.setBounds(30, 190, 80, 17);
+        lblCelular.setBounds(30, 180, 80, 17);
 
         lblAnoDeIngreso.setText("Año de ingreso");
         getContentPane().add(lblAnoDeIngreso);
-        lblAnoDeIngreso.setBounds(30, 230, 120, 17);
+        lblAnoDeIngreso.setBounds(30, 220, 120, 17);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -101,11 +95,11 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(200, 320, 90, 27);
+        btnEliminar.setBounds(200, 290, 90, 27);
 
         lblCedula.setText("Cédula");
         getContentPane().add(lblCedula);
-        lblCedula.setBounds(30, 90, 100, 20);
+        lblCedula.setBounds(30, 100, 100, 20);
 
         txtCedula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +107,7 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtCedula);
-        txtCedula.setBounds(140, 90, 230, 27);
+        txtCedula.setBounds(140, 100, 230, 27);
 
         lstClientes.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -123,7 +117,7 @@ public class MenuCliente extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstClientes);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(400, 90, 320, 160);
+        jScrollPane2.setBounds(410, 70, 210, 160);
 
         btnAgregar1.setText("Agregar");
         btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
@@ -132,17 +126,18 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAgregar1);
-        btnAgregar1.setBounds(90, 320, 90, 27);
+        btnAgregar1.setBounds(90, 290, 90, 27);
 
+        lblInfoClienteSeleccionado.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         lblInfoClienteSeleccionado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(lblInfoClienteSeleccionado);
-        lblInfoClienteSeleccionado.setBounds(430, 280, 250, 190);
+        lblInfoClienteSeleccionado.setBounds(390, 250, 250, 190);
 
         lblCliente1.setText("Clientes");
         getContentPane().add(lblCliente1);
-        lblCliente1.setBounds(400, 50, 80, 17);
+        lblCliente1.setBounds(410, 30, 80, 17);
 
-        setBounds(0, 0, 740, 527);
+        setBounds(0, 0, 657, 489);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed

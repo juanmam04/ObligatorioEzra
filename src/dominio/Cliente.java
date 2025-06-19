@@ -63,7 +63,11 @@ public class Cliente {
     }
     
     @Override
-    public String toString(){
-        return this.getNombre()+" "+this.getDireccion()+" "+this.getCelular()+" "+this.getCedula()+" "+this.getAnoIngreso();
-    }
+    public String toString() {
+        return "<html>Nombre: " + this.getNombre().toUpperCase() + "<br>" +
+               "Dirección: " + this.getDireccion().toUpperCase() + "<br>" +
+               "Celular: " + this.getCelular() + "<br>" +
+               "Cédula: " + this.getCedula() + "<br>" +
+               "Año de ingreso: " + this.getAnoIngreso() + "</html>";
+    } // Este codigo de html es para que se muestre bien en el label de informacion
 }

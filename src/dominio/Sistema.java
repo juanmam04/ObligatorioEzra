@@ -77,15 +77,25 @@ public class Sistema {
         }
         return null;
     }
-//
-//    // Empleados
-//    boolean agregarEmpleado(Empleado unEmpleado){
-//        
-//    }
-//
-//    Empleado buscarEmpleadoPorCedula(int unaCedula){
-//        
-//    }
+
+    // Empleados
+    public boolean agregarEmpleado(Empleado unEmpleado) {
+        if (buscarEmpleadoPorCedula(unEmpleado.getCedula()) == null) {
+            listaEmpleados.add(unEmpleado);
+            return true;
+        }
+        return false;
+    }
+
+    public Empleado buscarEmpleadoPorCedula(int unaCedula) {
+        for (Empleado emp : listaEmpleados) {
+            if (emp.getCedula() == unaCedula) {
+                return emp;
+            }
+        }
+        return null;
+    }
+    
 //    
 //    // Contratos
 //    boolean agregarContrato(Contrato unContrato){
