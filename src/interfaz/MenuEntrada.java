@@ -4,6 +4,12 @@
  */
 package interfaz;
 
+import dominio.Sistema;
+import dominio.Empleado;
+import dominio.Entrada;
+import dominio.Vehiculo;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author ezrak
@@ -13,9 +19,14 @@ public class MenuEntrada extends javax.swing.JFrame {
     /**
      * Creates new form MenuEntrada
      */
-    public MenuEntrada() {
+    private Sistema sistema;
+
+    public MenuEntrada(Sistema unSistema) {
+        this.sistema = unSistema;
         initComponents();
         setLocationRelativeTo(null);
+        actualizarListas();
+        // acá podés llamar a un método para llenar las listas si querés
     }
 
     /**
@@ -45,19 +56,19 @@ public class MenuEntrada extends javax.swing.JFrame {
 
         lblVehiculo.setText("Vehículo");
         getContentPane().add(lblVehiculo);
-        lblVehiculo.setBounds(26, 14, 140, 16);
+        lblVehiculo.setBounds(26, 14, 140, 17);
 
         lblEmpleado.setText("Empleado que recibe");
         getContentPane().add(lblEmpleado);
-        lblEmpleado.setBounds(318, 14, 170, 16);
+        lblEmpleado.setBounds(318, 14, 170, 17);
 
         lblFechaYHora.setText("Fecha y hora (dd/mm/aaaa HH:mm)");
         getContentPane().add(lblFechaYHora);
-        lblFechaYHora.setBounds(26, 244, 210, 16);
+        lblFechaYHora.setBounds(26, 244, 210, 17);
 
         lblNotas.setText("Notas");
         getContentPane().add(lblNotas);
-        lblNotas.setBounds(26, 295, 50, 16);
+        lblNotas.setBounds(26, 295, 50, 17);
 
         lstEmpleado.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -67,7 +78,7 @@ public class MenuEntrada extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstEmpleado);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(318, 42, 282, 146);
+        jScrollPane1.setBounds(318, 42, 282, 158);
 
         lstVehiculo.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -77,52 +88,79 @@ public class MenuEntrada extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstVehiculo);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(26, 42, 194, 146);
+        jScrollPane2.setBounds(26, 42, 194, 158);
         getContentPane().add(txtNotas);
-        txtNotas.setBounds(75, 292, 550, 22);
+        txtNotas.setBounds(75, 292, 550, 27);
         getContentPane().add(txtFechaYHora);
-        txtFechaYHora.setBounds(240, 240, 383, 22);
+        txtFechaYHora.setBounds(240, 240, 383, 27);
 
         lblRegistrar.setText("Registrar");
+        lblRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblRegistrarActionPerformed(evt);
+            }
+        });
         getContentPane().add(lblRegistrar);
-        lblRegistrar.setBounds(264, 350, 90, 23);
+        lblRegistrar.setBounds(264, 350, 90, 27);
 
         setBounds(0, 0, 652, 453);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuEntrada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuEntrada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuEntrada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuEntrada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void lblRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRegistrarActionPerformed
+        int indexVehiculo = lstVehiculo.getSelectedIndex();
+        int indexEmpleado = lstEmpleado.getSelectedIndex();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuEntrada().setVisible(true);
-            }
-        });
+        if (indexVehiculo == -1 || indexEmpleado == -1) {
+            JOptionPane.showMessageDialog(this, "Debés seleccionar un vehículo y un empleado.");
+            return;
+        }
+
+        String fechaHoraTexto = txtFechaYHora.getText().trim();
+        String[] partes = fechaHoraTexto.split(" ");
+        if (partes.length != 2) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha y hora incorrecto. Usá: dd/MM/yyyy HH:mm");
+            return;
+        }
+
+        String fecha = partes[0];
+        String hora = partes[1];
+
+        if (!fecha.matches("\\d{2}/\\d{2}/\\d{4}") || !hora.matches("\\d{2}:\\d{2}")) {
+            JOptionPane.showMessageDialog(this, "Formato inválido. Fecha: dd/MM/yyyy | Hora: HH:mm");
+            return;
+        }
+
+        Vehiculo vehiculoSeleccionado = sistema.getListaVehiculos().get(indexVehiculo);
+        Empleado empleadoSeleccionado = sistema.getListaEmpleados().get(indexEmpleado);
+        String nota = txtNotas.getText().trim();
+
+        Entrada nueva = new Entrada(vehiculoSeleccionado, fecha, hora, empleadoSeleccionado, nota);
+
+        if (sistema.agregarEntrada(nueva)) {
+            JOptionPane.showMessageDialog(this, "Entrada registrada correctamente.");
+            txtFechaYHora.setText("");
+            txtNotas.setText("");
+            lstVehiculo.clearSelection();
+            lstEmpleado.clearSelection();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ese vehículo ya tiene una entrada activa.");
+        }
+    }//GEN-LAST:event_lblRegistrarActionPerformed
+
+    private void actualizarListas() {
+        // Vehículos
+        DefaultListModel<String> modeloVehiculos = new DefaultListModel<>();
+        for (Vehiculo v : sistema.getListaVehiculos()) {
+            modeloVehiculos.addElement(v.getMatricula().toUpperCase());
+        }
+        lstVehiculo.setModel(modeloVehiculos);
+
+        // Empleados
+        DefaultListModel<String> modeloEmpleados = new DefaultListModel<>();
+        for (Empleado e : sistema.getListaEmpleados()) {
+            modeloEmpleados.addElement(e.getNombre().toUpperCase());
+        }
+        lstEmpleado.setModel(modeloEmpleados);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

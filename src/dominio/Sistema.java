@@ -149,26 +149,82 @@ public class Sistema {
         listaContratos.removeAll(aEliminar);
     }
 
-//    // Entradas y salidas
-//    boolean agregarEntrada(Entrada unaEntrada){
-//        
-//    }
-//    
-//    boolean agregarSalida(Salida unaSalida){
-//        
-//    }
-//    
-//    ArrayList<Entrada> obtenerEntradasActivas(){
-//        
-//    }
-//    
-//    // Servicios
-//    boolean agregarServicioAdicional(ServicioAdicional unServicio){
-//        
-//    }
-//    
-//    ArrayList<ServicioAdicional> obtenerServiciosDeVehiculo(Vehiculo unVehiculo){
-//        
-//    }
+    // Entradas y salidas
+    public boolean agregarEntrada(Entrada unaEntrada) {
+        // Solo se permite si el vehículo no tiene una entrada activa (sin salida)
+        for (Entrada entrada : listaEntradas) {
+            if (entrada.getVehiculo().getMatricula().equalsIgnoreCase(unaEntrada.getVehiculo().getMatricula()) &&
+                !entrada.isSalidaRegistrada()) {
+                return false;
+            }
+        }
+        listaEntradas.add(unaEntrada);
+        return true;
+    }
+    
+    public ArrayList<Entrada> obtenerEntradasActivas() {
+        ArrayList<Entrada> activas = new ArrayList<>();
+        for (Entrada entrada : listaEntradas) {
+            if (!entrada.isSalidaRegistrada()) {
+                activas.add(entrada);
+            }
+        }
+        return activas;
+    }
+    
+    public boolean agregarSalida(Salida unaSalida) {
+        // Validar que la entrada asociada no tenga salida registrada
+        Entrada entradaAsociada = unaSalida.getEntrada();
+        if (entradaAsociada == null || entradaAsociada.isSalidaRegistrada()) {
+            return false;
+        }
+        String fechaEntrada = entradaAsociada.getFecha();
+        String horaEntrada = entradaAsociada.getHora();
+        String fechaSalida = unaSalida.getFecha();
+        String horaSalida = unaSalida.getHora();
+
+        if (!esFechaYHoraPosterior(fechaEntrada, horaEntrada, fechaSalida, horaSalida)) {
+            return false;
+        }
+        entradaAsociada.setSalidaRegistrada(true);
+        listaSalidas.add(unaSalida);
+        return true;
+    }
+    
+    private boolean esFechaYHoraPosterior(String fechaEnt, String horaEnt, String fechaSal, String horaSal) {
+        try {
+            java.time.LocalDateTime entrada = java.time.LocalDateTime.parse(formatearFechaYHora(fechaEnt, horaEnt));
+            java.time.LocalDateTime salida = java.time.LocalDateTime.parse(formatearFechaYHora(fechaSal, horaSal));
+            return salida.isAfter(entrada);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private String formatearFechaYHora(String fecha, String hora) {
+        // Convierte "dd/MM/yyyy" + "HH:mm" → "yyyy-MM-ddTHH:mm"
+        // Lo hace para que internamente sea mas facil comparar las fechas para java
+        String[] partesFecha = fecha.split("/");
+        return String.format("%s-%s-%sT%s", partesFecha[2], partesFecha[1], partesFecha[0], hora);
+    }
+    
+    // Servicios
+    public boolean agregarServicioAdicional(ServicioAdicional unServicio) {
+        if (unServicio != null && unServicio.getVehiculo() != null) {
+            listaServiciosAdicionales.add(unServicio);
+            return true;
+        }
+        return false;
+    }
+    
+    public ArrayList<ServicioAdicional> obtenerServiciosDeVehiculo(Vehiculo unVehiculo) {
+        ArrayList<ServicioAdicional> servicios = new ArrayList<>();
+        for (ServicioAdicional servicio : listaServiciosAdicionales) {
+            if (servicio.getVehiculo().getMatricula().equalsIgnoreCase(unVehiculo.getMatricula())) {
+                servicios.add(servicio);
+            }
+        }
+        return servicios;
+    }
     
 }
