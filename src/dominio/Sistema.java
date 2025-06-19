@@ -46,6 +46,18 @@ public class Sistema {
     
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
     
+    // Modo oscuro
+    
+    private boolean modoOscuro = false;
+
+    public boolean isModoOscuro() {
+        return modoOscuro;
+    }
+
+    public void cambiarModo() {
+        modoOscuro = !modoOscuro;
+    }
+    
     // Clientes
     public boolean agregarCliente(Cliente unCliente) {
         if (buscarClientePorCedula(unCliente.getCedula()) == null) {

@@ -1,6 +1,7 @@
 package interfaz;
 
 import dominio.Sistema;
+import java.awt.Color;
 
 public class MenuParking extends javax.swing.JFrame {
 
@@ -9,13 +10,14 @@ public class MenuParking extends javax.swing.JFrame {
     public MenuParking() {
         sistema = new Sistema();
         initComponents();
+        aplicarTema();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnClaroObscuro = new javax.swing.JButton();
+        btnClaroOscuro = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         menGestion = new javax.swing.JMenu();
         itmGestionDeClientes = new javax.swing.JMenuItem();
@@ -40,14 +42,14 @@ public class MenuParking extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(null);
 
-        btnClaroObscuro.setText("Claro/Obscuro");
-        btnClaroObscuro.addActionListener(new java.awt.event.ActionListener() {
+        btnClaroOscuro.setText("Claro/Oscuro");
+        btnClaroOscuro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClaroObscuroActionPerformed(evt);
+                btnClaroOscuroActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClaroObscuro);
-        btnClaroObscuro.setBounds(151, 126, 108, 23);
+        getContentPane().add(btnClaroOscuro);
+        btnClaroOscuro.setBounds(151, 126, 110, 27);
 
         menGestion.setMnemonic('f');
         menGestion.setText("Gestión");
@@ -216,9 +218,10 @@ public class MenuParking extends javax.swing.JFrame {
 
     }//GEN-LAST:event_itmGrabacionDeDatosActionPerformed
 
-    private void btnClaroObscuroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaroObscuroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClaroObscuroActionPerformed
+    private void btnClaroOscuroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaroOscuroActionPerformed
+        sistema.cambiarModo();
+        aplicarTema(); // Aplica el nuevo tema en esta ventana
+    }//GEN-LAST:event_btnClaroOscuroActionPerformed
 
     private void helpMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenu1ActionPerformed
         // TODO add your handling code here:
@@ -269,6 +272,14 @@ public class MenuParking extends javax.swing.JFrame {
        
     }//GEN-LAST:event_itmInformacionDeAutoresActionPerformed
 
+    private void aplicarTema() {
+        java.awt.Color fondo = sistema.isModoOscuro() ? java.awt.Color.DARK_GRAY : java.awt.Color.WHITE;
+        java.awt.Color texto = sistema.isModoOscuro() ? java.awt.Color.WHITE : java.awt.Color.BLACK;
+
+        getContentPane().setBackground(fondo);
+        btnClaroOscuro.setBackground(fondo);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -305,7 +316,7 @@ public class MenuParking extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClaroObscuro;
+    private javax.swing.JButton btnClaroOscuro;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenu helpMenu1;
     private javax.swing.JMenuItem itmEntradas;
