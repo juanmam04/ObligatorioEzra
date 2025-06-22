@@ -1,3 +1,5 @@
+//Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
+
 package interfaz;
 
 import dominio.Sistema;
@@ -243,7 +245,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmEntradasActionPerformed
 
     private void itmSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSalidasActionPerformed
-        MenuSalida menu = new MenuSalida();
+        MenuSalida menu = new MenuSalida(sistema);
         menu.setVisible(true);
     }//GEN-LAST:event_itmSalidasActionPerformed
 

@@ -185,11 +185,13 @@ public class Sistema {
     }
     
     public boolean agregarSalida(Salida unaSalida) {
-        // Validar que la entrada asociada no tenga salida registrada
+        // Validar que la entrada asociada no sea nula y no haya salido antes
         Entrada entradaAsociada = unaSalida.getEntrada();
         if (entradaAsociada == null || entradaAsociada.isSalidaRegistrada()) {
             return false;
         }
+
+        // Validar que la fecha/hora de salida sea posterior a la de entrada
         String fechaEntrada = entradaAsociada.getFecha();
         String horaEntrada = entradaAsociada.getHora();
         String fechaSalida = unaSalida.getFecha();
@@ -198,7 +200,11 @@ public class Sistema {
         if (!esFechaYHoraPosterior(fechaEntrada, horaEntrada, fechaSalida, horaSalida)) {
             return false;
         }
+
+        // Marcar que ya salió
         entradaAsociada.setSalidaRegistrada(true);
+
+        // Agregar la salida
         listaSalidas.add(unaSalida);
         return true;
     }
