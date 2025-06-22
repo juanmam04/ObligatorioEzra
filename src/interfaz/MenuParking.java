@@ -1,18 +1,83 @@
 //Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
-
 package interfaz;
 
+import dominio.ArchivoGrabacion;
+import dominio.ArchivoLectura;
 import dominio.Sistema;
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import javax.swing.JOptionPane; // Para los diálogos
 
 public class MenuParking extends javax.swing.JFrame {
 
-    private Sistema sistema;
+    private Sistema sistema; // Tu instancia de Sistema
+    private static final String NOMBRE_ARCHIVO_DATOS = "DATOS.ser"; // Nombre del archivo para guardar/cargar
 
     public MenuParking() {
-        sistema = new Sistema();
+        // Al iniciar la aplicación, intenta cargar los datos.
+        // Si no existen o hay un error, se inicializa un nuevo Sistema.
+        sistema = cargarSistemaAlInicio();
+        if (sistema == null) {
+            // Si la carga falla o el archivo no existe, inicializa un nuevo sistema vacío
+            sistema = new Sistema();
+            JOptionPane.showMessageDialog(this, "No se encontraron datos previos o hubo un error al cargar. Se inició un nuevo sistema.", "Inicio de Aplicación", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Datos cargados exitosamente al inicio de la aplicación.", "Inicio de Aplicación", JOptionPane.INFORMATION_MESSAGE);
+        }
+
         initComponents();
         aplicarTema();
+    }
+
+    private Sistema cargarSistemaAlInicio() {
+        ArchivoLectura lector = new ArchivoLectura(NOMBRE_ARCHIVO_DATOS);
+        Sistema sistemaCargado = null;
+
+        // Verifica si el archivo existe para leer. Si no, no intenta leer el objeto.
+        if (lector.existeArchivoParaLeer()) {
+            // No pedimos confirmación aquí, esto es al inicio automático.
+            // El método leerSistema ya maneja la confirmación si se le llama directamente.
+            // Para la carga inicial, podrías querer un comportamiento diferente.
+            // Si quieres que el inicio sea silencioso y solo cargue si puede,
+            // puedes modificar leerSistema para que no pida confirmación o crear
+            // otro método en ArchivoLectura para carga sin confirmación.
+            // Por simplicidad, asumiré que en este punto no quieres confirmar al usuario.
+            // Vamos a adaptar el método leerSistema para que la primera carga
+            // del constructor no pida confirmación.
+
+            try {
+                // Leer el objeto sin pedir confirmación en el constructor de MenuParking
+                // Para esto, modificaremos ligeramente ArchivoLectura.
+                // Opción 1: Crear un método public Object leerObjetoSinConfirmacion() en ArchivoLectura
+                // Opción 2: Manejar la confirmación aquí en MenuParking para la carga inicial
+
+                // Por ahora, para la carga INICIAL, vamos a leer sin el diálogo de confirmación
+                // que está dentro de ArchivoLectura. Puedes refactorizar ArchivoLectura
+                // para tener un método específico para "carga silenciosa" si lo prefieres.
+                // Aquí simularemos esa "carga silenciosa" accediendo directamente al stream.
+                FileInputStream fileIn = new FileInputStream(NOMBRE_ARCHIVO_DATOS);
+                ObjectInputStream objIn = new ObjectInputStream(fileIn);
+                Object objetoLeido = objIn.readObject();
+                if (objetoLeido instanceof Sistema) {
+                    sistemaCargado = (Sistema) objetoLeido;
+                } else {
+                    System.err.println("El archivo DATOS.ser no contiene un objeto Sistema válido.");
+                }
+                objIn.close();
+                fileIn.close();
+            } catch (FileNotFoundException e) {
+                // Esto ya lo maneja el constructor de ArchivoLectura con existeArchivoParaLeer
+                System.out.println("Archivo DATOS.ser no encontrado al inicio.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error al cargar datos al inicio: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al cargar datos guardados: " + e.getMessage() + ". Se iniciará con datos nuevos.", "Error de Carga", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        lector.cerrar(); // Asegurarse de cerrar el lector incluso si no se usó el método leerSistema completo
+        return sistemaCargado;
     }
 
     @SuppressWarnings("unchecked")
@@ -209,6 +274,7 @@ public class MenuParking extends javax.swing.JFrame {
     private void itmGestionDeClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGestionDeClientesActionPerformed
         MenuCliente menu = new MenuCliente(sistema);
         menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
     }//GEN-LAST:event_itmGestionDeClientesActionPerformed
 
     private void itmGestionDeVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGestionDeVehiculosActionPerformed
@@ -217,7 +283,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmGestionDeVehiculosActionPerformed
 
     private void itmGrabacionDeDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGrabacionDeDatosActionPerformed
-
+        grabarDatos();
     }//GEN-LAST:event_itmGrabacionDeDatosActionPerformed
 
     private void btnClaroOscuroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaroOscuroActionPerformed
@@ -260,22 +326,22 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmReportesActionPerformed
 
     private void itmRecuperacionDeDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRecuperacionDeDatosActionPerformed
-
+        recuperarDatos();
     }//GEN-LAST:event_itmRecuperacionDeDatosActionPerformed
 
     private void itmMinijuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmMinijuegoActionPerformed
-        VentanaMinijuego menu= new VentanaMinijuego();
+        VentanaMinijuego menu = new VentanaMinijuego();
         menu.setVisible(true);
     }//GEN-LAST:event_itmMinijuegoActionPerformed
 
     private void itmInformacionDeAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmInformacionDeAutoresActionPerformed
         MenuInformacionDeLosAutores menu = new MenuInformacionDeLosAutores();
         menu.setVisible(true);
-       
+
     }//GEN-LAST:event_itmInformacionDeAutoresActionPerformed
 
     private void aplicarTema() {
-        
+
         Color fondo = sistema.isModoOscuro() ? Color.DARK_GRAY : Color.WHITE;
         Color texto = sistema.isModoOscuro() ? Color.WHITE : Color.BLACK;
 
@@ -309,10 +375,6 @@ public class MenuParking extends javax.swing.JFrame {
         }
     }
 
-
-
-
-    
     /**
      * @param args the command line arguments
      */
@@ -372,6 +434,35 @@ public class MenuParking extends javax.swing.JFrame {
 
     public void setBounds(int i, int i0) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void grabarDatos() {
+        ArchivoGrabacion grabador = new ArchivoGrabacion(NOMBRE_ARCHIVO_DATOS);
+        grabador.grabarSistema(sistema); // Grabar la instancia actual de tu sistema
+        grabador.cerrar(); // Siempre cerrar el archivo
+    }
+
+    private void recuperarDatos() {
+        ArchivoLectura lector = new ArchivoLectura(NOMBRE_ARCHIVO_DATOS);
+        Sistema sistemaRecuperado = lector.leerSistema();
+        lector.cerrar(); // Siempre cerrar el archivo
+
+        if (sistemaRecuperado != null) {
+            // Si se recuperó un sistema, lo sustituimos por el actual
+            this.sistema = sistemaRecuperado;
+            // Opcional: si las ventanas secundarias ya están abiertas,
+            // puede que necesites actualizarles la referencia al nuevo sistema.
+            // Esto es un punto a considerar en aplicaciones más complejas.
+            // Por ahora, asumimos que se abrirán nuevas ventanas o que
+            // los cambios se reflejarán al cerrar y reabrir las subventanas.
+        } else {
+            // Si no se recuperó (porque no existía el archivo o el usuario canceló),
+            // el sistema actual permanece como está, o se reinicia si lo deseas.
+            // Según tu requisito: "Si no hay datos previos, se reinicia el sistema."
+            // La lógica de reiniciar si no hay datos ya está en el constructor de MenuParking
+            // y aquí si el usuario cancela, no se hace nada, lo cual es correcto.
+            JOptionPane.showMessageDialog(this, "No se recuperaron datos. El sistema actual permanece inalterado.", "Recuperación Cancelada/Fallida", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
 }

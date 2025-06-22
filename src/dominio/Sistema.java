@@ -2,10 +2,13 @@
 
 package dominio;
 
+import java.io.Serializable; // Importar la interfaz Serializable
 import java.util.ArrayList;
-import java.util.Comparator;
 
-public class Sistema {
+// La clase Sistema debe implementar Serializable
+public class Sistema implements Serializable {
+    private static final long serialVersionUID = 1L; // Recomendado para el control de versiones
+
     private ArrayList<Cliente> listaClientes;
     private ArrayList<Contrato> listaContratos;
     private ArrayList<Empleado> listaEmpleados;
@@ -17,13 +20,13 @@ public class Sistema {
     //Constructor
     
     public Sistema(){
-        this.listaClientes= new ArrayList<>();
-        this.listaContratos= new ArrayList<>();
-        this.listaEmpleados= new ArrayList<>();
-        this.listaEntradas= new ArrayList<>();
-        this.listaSalidas= new ArrayList<>();
-        this.listaServiciosAdicionales= new ArrayList<>();
-        this.listaVehiculos= new ArrayList<>();        
+        this.listaClientes = new ArrayList<>();
+        this.listaContratos = new ArrayList<>();
+        this.listaEmpleados = new ArrayList<>();
+        this.listaEntradas = new ArrayList<>();
+        this.listaSalidas = new ArrayList<>();
+        this.listaServiciosAdicionales = new ArrayList<>();
+        this.listaVehiculos = new ArrayList<>();        
         
     }
     
@@ -44,19 +47,18 @@ public class Sistema {
     public ArrayList<Contrato> getListaContratos() {
         return listaContratos;
     }
-    
+
     public ArrayList<Entrada> getListaEntradas() {
-        return this.listaEntradas;
+        return listaEntradas;
     }
 
     public ArrayList<Salida> getListaSalidas() {
-        return this.listaSalidas;
+        return listaSalidas;
     }
 
     public ArrayList<ServicioAdicional> getListaServiciosAdicionales() {
-        return this.listaServiciosAdicionales;
+        return listaServiciosAdicionales;
     }
-    
     
     // Metdos necesarios para cada sector (Ayuda de Chatgpt para logica)
     
@@ -168,7 +170,12 @@ public class Sistema {
         ArrayList<Contrato> aEliminar = new ArrayList<>();
         for (Contrato contrato : listaContratos) {
             Vehiculo veh = contrato.getVehiculo();
-            if (listaVehiculos.contains(veh)) {
+            // Nota: Aquí parece haber un error en la lógica. Si la intención es eliminar
+            // contratos asociados a un cliente, deberías buscar si el contrato está
+            // asociado a ese cliente, no si el vehículo está en listaVehiculos.
+            // Asumo que Contrato tiene una referencia a Cliente.
+            // Por ahora, mantengo tu lógica, pero es un punto a revisar.
+            if (listaVehiculos.contains(veh)) { // Esta condición no parece correcta para "contratos de cliente"
                 aEliminar.add(contrato);
             }
         }
@@ -199,13 +206,11 @@ public class Sistema {
     }
     
     public boolean agregarSalida(Salida unaSalida) {
-        // Validar que la entrada asociada no sea nula y no haya salido antes
+        // Validar que la entrada asociada no tenga salida registrada
         Entrada entradaAsociada = unaSalida.getEntrada();
         if (entradaAsociada == null || entradaAsociada.isSalidaRegistrada()) {
             return false;
         }
-
-        // Validar que la fecha/hora de salida sea posterior a la de entrada
         String fechaEntrada = entradaAsociada.getFecha();
         String horaEntrada = entradaAsociada.getHora();
         String fechaSalida = unaSalida.getFecha();
@@ -214,11 +219,7 @@ public class Sistema {
         if (!esFechaYHoraPosterior(fechaEntrada, horaEntrada, fechaSalida, horaSalida)) {
             return false;
         }
-
-        // Marcar que ya salió
         entradaAsociada.setSalidaRegistrada(true);
-
-        // Agregar la salida
         listaSalidas.add(unaSalida);
         return true;
     }
@@ -258,45 +259,5 @@ public class Sistema {
         }
         return servicios;
     }
-    
-    // Reportes
-    
-    public ArrayList<String[]> generarHistorialDeVehiculo(String matricula, boolean entradas, boolean salidas, boolean servicios, boolean todos, boolean ascendente) {
-        ArrayList<String[]> resultado = new ArrayList<>();
-
-        if (todos || entradas) {
-            for (Entrada e : this.getListaEntradas()) {
-                if (e.getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
-                    resultado.add(new String[]{e.getFecha() + " " + e.getHora(), "Entrada", e.getEmpleado().getNombre(), e.getNota()});
-                }
-            }
-        }
-
-        if (todos || salidas) {
-            for (Salida s : this.getListaSalidas()) {
-                if (s.getEntrada().getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
-                    resultado.add(new String[]{s.getFecha() + " " + s.getHora(), "Salida", s.getEmpleado().getNombre(), s.getComentario()});
-                }
-            }
-        }
-
-        if (todos || servicios) {
-            for (ServicioAdicional sa : this.getListaServiciosAdicionales()) {
-                if (sa.getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
-                    resultado.add(new String[]{sa.getFecha() + " " + sa.getHora(), "Servicio", sa.getEmpleado().getNombre(), sa.getTipo() + " - $" + sa.getCosto()});
-                }
-            }
-        }
-
-        // ordenar por fecha si hay datos
-        if (ascendente) {
-            resultado.sort(Comparator.comparing(arr -> arr[0]));
-        } else {
-            resultado.sort(Comparator.comparing((String[] arr) -> arr[0]).reversed());
-        }
-
-        return resultado;
-    }
-
     
 }
