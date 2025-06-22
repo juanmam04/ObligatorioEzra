@@ -70,7 +70,7 @@ public class ServicioAdicional {
 
     @Override
     public String toString() {
-        return String.format("Tipo: %s - Fecha: %s - Hora: %s - Vehículo: %s - Empleado: %s - Costo: %.2f",
-                tipo, fecha, hora, vehiculo.getMatricula(), empleado.getNombre(), costo);
+        return String.format("<html>Tipo: %s<br>Fecha: %s - Hora: %s<br>Vehículo: %s<br>Empleado: %s<br>Costo: $%.2f</html>",
+                tipo.toUpperCase(), fecha, hora, vehiculo.getMatricula().toUpperCase(), empleado.getNombre().toUpperCase(), costo);
     }
 }
