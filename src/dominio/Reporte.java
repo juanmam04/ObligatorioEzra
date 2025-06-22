@@ -1,7 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+//Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
+
 package dominio;
 
 public class Reporte {

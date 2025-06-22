@@ -173,7 +173,7 @@ public class MenuContrato extends javax.swing.JFrame {
         }
 
         try {
-            Double.parseDouble(valor); // validación mínima del valor numérico
+            Double.parseDouble(valor); 
             Vehiculo vehiculoSeleccionado = sistema.getListaVehiculos().get(indexVehiculo);
             Empleado empleadoSeleccionado = sistema.getListaEmpleados().get(indexEmpleado);
             Cliente clienteSeleccionado = sistema.getListaClientes().get(indexCliente);

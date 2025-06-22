@@ -1,3 +1,5 @@
+//Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
+
 package interfaz;
 import javax.swing.JFrame;
 import javax.swing.JPanel;

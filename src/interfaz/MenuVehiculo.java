@@ -196,7 +196,7 @@ public class MenuVehiculo extends javax.swing.JFrame {
         if (confirmacion == JOptionPane.YES_OPTION) {
             sistema.getListaVehiculos().remove(vehiculoSeleccionado);
             actualizarListaVehiculos();
-            lblInfoVehiculoSeleccionado.setText(""); // limpia el label
+            lblInfoVehiculoSeleccionado.setText(""); 
             JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente.");
         }
     }//GEN-LAST:event_btnEliminarVehiculoActionPerformed

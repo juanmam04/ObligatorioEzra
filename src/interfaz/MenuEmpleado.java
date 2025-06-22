@@ -200,9 +200,9 @@ public class MenuEmpleado extends javax.swing.JFrame {
             JOptionPane.YES_NO_OPTION);
 
         if (confirmacion == JOptionPane.YES_OPTION) {
-            sistema.getListaEmpleados().clear(); // Borra todos los empleados
-            actualizarListaEmpleados();          // Refresca la JList
-            lblInfoEmpleadoSeleccionado.setText(""); // Limpia el label
+            sistema.getListaEmpleados().clear(); 
+            actualizarListaEmpleados();         
+            lblInfoEmpleadoSeleccionado.setText(""); 
             JOptionPane.showMessageDialog(this, "Lista de empleados vaciada correctamente.");
         }
     }//GEN-LAST:event_btnVaciarActionPerformed
