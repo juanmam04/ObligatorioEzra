@@ -21,6 +21,7 @@ public class MenuSalida extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         cargarListas();
+        aplicarTema();
     }
 
     @SuppressWarnings("unchecked")
@@ -186,6 +187,51 @@ public class MenuSalida extends javax.swing.JFrame {
         }
         lstEmpleado.setModel(modeloEmpleados);
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        Color fondo = Color.DARK_GRAY;
+        Color texto = Color.WHITE;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        javax.swing.JLabel[] labels = {
+            lblComentarios, lblListaEntradas, lblListaEmpleado, lblHoraSalida
+        };
+        for (javax.swing.JLabel lbl : labels) {
+            lbl.setForeground(texto);
+        }
+
+        // TextField
+        txtFechaYHora.setBackground(fondo);
+        txtFechaYHora.setForeground(texto);
+        txtFechaYHora.setCaretColor(texto);
+        txtFechaYHora.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+
+        // TextArea
+        txtComentarios.setBackground(fondo);
+        txtComentarios.setForeground(texto);
+        txtComentarios.setCaretColor(texto);
+        txtComentarios.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+
+        // Listas
+        javax.swing.JList[] listas = {kstVehiculos, lstEmpleado};
+        for (javax.swing.JList lista : listas) {
+            lista.setBackground(fondo);
+            lista.setForeground(texto);
+            lista.setSelectionBackground(new Color(70, 130, 180));
+            lista.setSelectionForeground(Color.WHITE);
+        }
+
+        // Botón
+        btnRegistrar.setBackground(fondo);
+        btnRegistrar.setForeground(texto);
+        btnRegistrar.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;

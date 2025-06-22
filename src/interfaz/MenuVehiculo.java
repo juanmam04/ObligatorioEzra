@@ -16,6 +16,7 @@ public class MenuVehiculo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         actualizarListaVehiculos();
+        aplicarTema();
         
         lstVehiculos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -76,7 +77,7 @@ public class MenuVehiculo extends javax.swing.JFrame {
 
         lblVehiuculos.setText("Vehículos");
         getContentPane().add(lblVehiuculos);
-        lblVehiuculos.setBounds(410, 10, 60, 17);
+        lblVehiuculos.setBounds(410, 10, 100, 17);
 
         lblMatricula.setText("Matricula");
         getContentPane().add(lblMatricula);
@@ -216,6 +217,49 @@ public class MenuVehiculo extends javax.swing.JFrame {
         txtModelo.setText("");
         txtEstado.setText("");
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return; // No tocar nada si el modo oscuro no está activo
+
+        java.awt.Color fondo = java.awt.Color.DARK_GRAY;
+        java.awt.Color texto = java.awt.Color.WHITE;
+        java.awt.Color borde = java.awt.Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        lblMatricula.setForeground(texto);
+        lblMarca.setForeground(texto);
+        lblCelular.setForeground(texto);
+        lblEstado.setForeground(texto);
+        lblVehiuculos.setForeground(texto);
+        lblInfoVehiculoSeleccionado.setForeground(texto);
+
+        // TextFields
+        javax.swing.border.Border border = javax.swing.BorderFactory.createLineBorder(borde);
+        javax.swing.JTextField[] campos = {txtMatricula, txtMarca, txtModelo, txtEstado};
+        for (javax.swing.JTextField campo : campos) {
+            campo.setBackground(fondo);
+            campo.setForeground(texto);
+            campo.setCaretColor(texto);
+            campo.setBorder(border);
+        }
+
+        // Botones
+        javax.swing.JButton[] botones = {btnAgregarVehiculo, btnEliminarVehiculo, btnVaciarVehiculo};
+        for (javax.swing.JButton boton : botones) {
+            boton.setBackground(fondo);
+            boton.setForeground(texto);
+            boton.setBorder(border);
+        }
+
+        // Lista
+        lstVehiculos.setBackground(fondo);
+        lstVehiculos.setForeground(texto);
+        lstVehiculos.setSelectionBackground(new java.awt.Color(70, 130, 180)); // celeste oscuro
+        lstVehiculos.setSelectionForeground(java.awt.Color.WHITE);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarVehiculo;

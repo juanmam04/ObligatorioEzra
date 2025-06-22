@@ -4,6 +4,7 @@ package interfaz;
 
 import dominio.Sistema;
 import dominio.Empleado;
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,7 @@ public class MenuEmpleado extends javax.swing.JFrame {
         this.sistema = unSistema;
         initComponents();
         actualizarListaEmpleados(); 
+        aplicarTema();
         
         lstEmpleados.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -222,6 +224,51 @@ public class MenuEmpleado extends javax.swing.JFrame {
         txtCedula.setText("");
         txtNumeroEmp.setText("");
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return; // Si el modo oscuro no está activo, no tocar nada
+
+        Color fondo = Color.DARK_GRAY;
+        Color texto = Color.WHITE;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        lblNombre.setForeground(texto);
+        lblDireccion.setForeground(texto);
+        lblCelular.setForeground(texto);
+        lblAnoDeIngreso1.setForeground(texto);
+        lblClientes.setForeground(texto);
+        lblInfoEmpleadoSeleccionado.setForeground(texto);
+
+        // TextFields
+        javax.swing.border.Border border = javax.swing.BorderFactory.createLineBorder(borde);
+        javax.swing.JTextField[] campos = {txtNombre, txtDireccion, txtCedula, txtNumeroEmp};
+        for (javax.swing.JTextField campo : campos) {
+            campo.setBackground(fondo);
+            campo.setForeground(texto);
+            campo.setCaretColor(texto);
+            campo.setBorder(border);
+        }
+
+        // Botones
+        javax.swing.JButton[] botones = {btnAgregar, btnEliminarEmp, btnVaciar};
+        for (javax.swing.JButton boton : botones) {
+            boton.setBackground(fondo);
+            boton.setForeground(texto);
+            boton.setBorder(border);
+        }
+
+        // Lista
+        lstEmpleados.setBackground(fondo);
+        lstEmpleados.setForeground(texto);
+        lstEmpleados.setSelectionBackground(new Color(70, 130, 180)); // celeste oscuro
+        lstEmpleados.setSelectionForeground(Color.WHITE);
+    }
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

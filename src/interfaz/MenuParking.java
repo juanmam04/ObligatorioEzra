@@ -255,7 +255,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmServiciosAdicionalesActionPerformed
 
     private void itmReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmReportesActionPerformed
-        MenuReporte menu = new MenuReporte();
+        MenuReporte menu = new MenuReporte(sistema);
         menu.setVisible(true);
     }//GEN-LAST:event_itmReportesActionPerformed
 
@@ -275,12 +275,43 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmInformacionDeAutoresActionPerformed
 
     private void aplicarTema() {
-        java.awt.Color fondo = sistema.isModoOscuro() ? java.awt.Color.DARK_GRAY : java.awt.Color.WHITE;
-        java.awt.Color texto = sistema.isModoOscuro() ? java.awt.Color.WHITE : java.awt.Color.BLACK;
+        
+        Color fondo = sistema.isModoOscuro() ? Color.DARK_GRAY : Color.WHITE;
+        Color texto = sistema.isModoOscuro() ? Color.WHITE : Color.BLACK;
 
         getContentPane().setBackground(fondo);
         btnClaroOscuro.setBackground(fondo);
+        btnClaroOscuro.setForeground(texto);
+        btnClaroOscuro.setBorder(javax.swing.BorderFactory.createLineBorder(texto));
+
+        // Estilizar barra de menú
+        menuBar.setBackground(fondo);
+        // NO cambiar el foreground globalmente para evitar afectar los JMenu si no se puede
+        // menuBar.setForeground(texto); ← ESTA LÍNEA SE COMENTA
+
+        for (int i = 0; i < menuBar.getMenuCount(); i++) {
+            javax.swing.JMenu menu = menuBar.getMenu(i);
+            if (menu != null) {
+                menu.setOpaque(false); // ← Evitamos forzar fondo
+                // NO cambiamos fondo ni texto para JMenu (títulos de menú)
+                // menu.setBackground(fondo); ← NO
+                // menu.setForeground(texto); ← NO
+
+                for (int j = 0; j < menu.getItemCount(); j++) {
+                    javax.swing.JMenuItem item = menu.getItem(j);
+                    if (item != null) {
+                        item.setOpaque(true);
+                        item.setBackground(fondo);
+                        item.setForeground(texto);
+                    }
+                }
+            }
+        }
     }
+
+
+
+
     
     /**
      * @param args the command line arguments

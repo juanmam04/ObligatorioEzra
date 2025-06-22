@@ -21,6 +21,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         cargarListas();
         inicializarComboServicios();
+        aplicarTema();
         
         DefaultListModel<String> modelo = new DefaultListModel<>();
         for (Vehiculo v : sistema.getListaVehiculos()) {
@@ -61,7 +62,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
 
         lblEmpleado.setText("Empleados");
         getContentPane().add(lblEmpleado);
-        lblEmpleado.setBounds(260, 20, 180, 17);
+        lblEmpleado.setBounds(400, 20, 280, 17);
 
         lblCosto.setText("Costo");
         getContentPane().add(lblCosto);
@@ -75,7 +76,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstVehiculo);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(20, 50, 210, 158);
+        jScrollPane1.setBounds(20, 50, 310, 158);
 
         lstEmpleado.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -85,11 +86,11 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstEmpleado);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(260, 50, 210, 158);
+        jScrollPane2.setBounds(400, 50, 310, 158);
 
         lblVehiculo.setText("Vehículos");
         getContentPane().add(lblVehiculo);
-        lblVehiculo.setBounds(20, 20, 210, 17);
+        lblVehiculo.setBounds(20, 20, 310, 17);
 
         lblServicio.setText("Servicio");
         getContentPane().add(lblServicio);
@@ -97,7 +98,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
 
         lblFechaYHora.setText("Fecha y hora (DD/MM/AAAA HH:MM");
         getContentPane().add(lblFechaYHora);
-        lblFechaYHora.setBounds(20, 270, 220, 17);
+        lblFechaYHora.setBounds(20, 280, 220, 20);
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +107,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRegistrar);
-        btnRegistrar.setBounds(40, 320, 100, 27);
+        btnRegistrar.setBounds(90, 340, 100, 27);
 
         txtFechaYHora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,7 +115,7 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtFechaYHora);
-        txtFechaYHora.setBounds(260, 270, 210, 27);
+        txtFechaYHora.setBounds(260, 280, 450, 30);
 
         cmbServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbServicio.addActionListener(new java.awt.event.ActionListener() {
@@ -131,14 +132,14 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtCombo);
-        txtCombo.setBounds(301, 230, 170, 27);
+        txtCombo.setBounds(311, 230, 400, 27);
 
         lblInfoServicio.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         lblInfoServicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(lblInfoServicio);
-        lblInfoServicio.setBounds(180, 300, 300, 140);
+        lblInfoServicio.setBounds(330, 330, 300, 140);
 
-        setBounds(0, 0, 492, 481);
+        setBounds(0, 0, 733, 511);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -223,6 +224,52 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
         cmbServicio.addItem("cambio de luces");
         cmbServicio.addItem("otro");
     }
+   
+   private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        Color fondo = Color.DARK_GRAY;
+        Color texto = Color.WHITE;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        javax.swing.JLabel[] labels = {
+            lblEmpleado, lblCosto, lblVehiculo, lblServicio, lblFechaYHora, lblInfoServicio
+        };
+        for (javax.swing.JLabel lbl : labels) {
+            lbl.setForeground(texto);
+        }
+
+        // TextFields
+        javax.swing.JTextField[] campos = {txtFechaYHora, txtCombo};
+        for (javax.swing.JTextField campo : campos) {
+            campo.setBackground(fondo);
+            campo.setForeground(texto);
+            campo.setCaretColor(texto);
+            campo.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+        }
+
+        // Listas
+        javax.swing.JList[] listas = {lstVehiculo, lstEmpleado};
+        for (javax.swing.JList lista : listas) {
+            lista.setBackground(fondo);
+            lista.setForeground(texto);
+            lista.setSelectionBackground(new Color(70, 130, 180));
+            lista.setSelectionForeground(Color.WHITE);
+        }
+
+        // ComboBox
+        cmbServicio.setBackground(fondo);
+        cmbServicio.setForeground(texto);
+
+        // Botón
+        btnRegistrar.setBackground(fondo);
+        btnRegistrar.setForeground(texto);
+        btnRegistrar.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;

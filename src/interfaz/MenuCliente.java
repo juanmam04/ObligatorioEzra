@@ -6,6 +6,8 @@ import dominio.Sistema;
 import dominio.Cliente;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import java.awt.Color;
+
 
 public class MenuCliente extends javax.swing.JFrame {
     
@@ -15,6 +17,7 @@ public class MenuCliente extends javax.swing.JFrame {
         this.sistema = unSistema;
         initComponents();
         actualizarListaClientes();
+        aplicarTema();
 
         lstClientes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -215,6 +218,51 @@ public class MenuCliente extends javax.swing.JFrame {
         txtCedula.setText("");
         txtAnoDeIngreso.setText("");
     }
+    
+    private void aplicarTema() {
+        
+        if (!sistema.isModoOscuro()) return; // Si el modo oscuro no está activo, no tocar nada
+
+        Color fondo = sistema.isModoOscuro() ? Color.DARK_GRAY : Color.WHITE;
+        Color texto = sistema.isModoOscuro() ? Color.WHITE : Color.BLACK;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        lblNombre.setForeground(texto);
+        lblDireccion.setForeground(texto);
+        lblCelular.setForeground(texto);
+        lblAnoDeIngreso.setForeground(texto);
+        lblCedula.setForeground(texto);
+        lblCliente1.setForeground(texto);
+        lblInfoClienteSeleccionado.setForeground(texto);
+
+        // TextFields
+        javax.swing.border.Border border = javax.swing.BorderFactory.createLineBorder(borde);
+        javax.swing.JTextField[] campos = {txtNombre, txtDireccion, txtCelular, txtCedula, txtAnoDeIngreso};
+        for (javax.swing.JTextField campo : campos) {
+            campo.setBackground(fondo);
+            campo.setForeground(texto);
+            campo.setCaretColor(texto);
+            campo.setBorder(border);
+        }
+
+        // Botones
+        javax.swing.JButton[] botones = {btnAgregar1, btnEliminar};
+        for (javax.swing.JButton boton : botones) {
+            boton.setBackground(fondo);
+            boton.setForeground(texto);
+            boton.setBorder(border);
+        }
+
+        // Lista
+        lstClientes.setBackground(fondo);
+        lstClientes.setForeground(texto);
+        lstClientes.setSelectionBackground(new Color(70, 130, 180)); // celeste oscuro
+        lstClientes.setSelectionForeground(Color.WHITE);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar1;

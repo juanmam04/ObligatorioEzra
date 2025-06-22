@@ -18,6 +18,7 @@ public class MenuEntrada extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         actualizarListas();
+        aplicarTema();
     }
     
     @SuppressWarnings("unchecked")
@@ -148,6 +149,48 @@ public class MenuEntrada extends javax.swing.JFrame {
         }
         lstEmpleado.setModel(modeloEmpleados);
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        java.awt.Color fondo = java.awt.Color.DARK_GRAY;
+        java.awt.Color texto = java.awt.Color.WHITE;
+        java.awt.Color borde = java.awt.Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        javax.swing.JLabel[] labels = {
+            lblVehiculo, lblEmpleado, lblFechaYHora, lblNotas
+        };
+        for (javax.swing.JLabel lbl : labels) {
+            lbl.setForeground(texto);
+        }
+
+        // TextFields
+        javax.swing.JTextField[] campos = {txtFechaYHora, txtNotas};
+        for (javax.swing.JTextField campo : campos) {
+            campo.setBackground(fondo);
+            campo.setForeground(texto);
+            campo.setCaretColor(texto);
+            campo.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+        }
+
+        // Botón
+        lblRegistrar.setBackground(fondo);
+        lblRegistrar.setForeground(texto);
+        lblRegistrar.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+
+        // Listas
+        javax.swing.JList[] listas = {lstVehiculo, lstEmpleado};
+        for (javax.swing.JList lista : listas) {
+            lista.setBackground(fondo);
+            lista.setForeground(texto);
+            lista.setSelectionBackground(new java.awt.Color(70, 130, 180));
+            lista.setSelectionForeground(java.awt.Color.WHITE);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

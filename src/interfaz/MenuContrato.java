@@ -20,6 +20,7 @@ public class MenuContrato extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         actualizarListaContratos();
         actualizarListas();
+        aplicarTema();
     }
 
     @SuppressWarnings("unchecked")
@@ -51,11 +52,11 @@ public class MenuContrato extends javax.swing.JFrame {
 
         lblEmpleados.setText("Empleados");
         getContentPane().add(lblEmpleados);
-        lblEmpleados.setBounds(460, 30, 90, 16);
+        lblEmpleados.setBounds(480, 20, 90, 17);
 
         lblClientes.setText("Clientes");
         getContentPane().add(lblClientes);
-        lblClientes.setBounds(20, 30, 60, 16);
+        lblClientes.setBounds(40, 20, 60, 17);
 
         lstClientes.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -65,11 +66,11 @@ public class MenuContrato extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstClientes);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(10, 70, 194, 146);
+        jScrollPane2.setBounds(30, 60, 194, 158);
 
         lblVehiculos.setText("Vehículos");
         getContentPane().add(lblVehiculos);
-        lblVehiculos.setBounds(230, 30, 90, 16);
+        lblVehiculos.setBounds(250, 20, 90, 17);
 
         lstEmpleados.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -79,7 +80,7 @@ public class MenuContrato extends javax.swing.JFrame {
         jScrollPane4.setViewportView(lstEmpleados);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(460, 70, 198, 146);
+        jScrollPane4.setBounds(480, 60, 198, 158);
 
         lstVehiculos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -89,7 +90,7 @@ public class MenuContrato extends javax.swing.JFrame {
         jScrollPane5.setViewportView(lstVehiculos);
 
         getContentPane().add(jScrollPane5);
-        jScrollPane5.setBounds(230, 70, 207, 146);
+        jScrollPane5.setBounds(250, 60, 207, 158);
 
         lblNumeroDeContrato.setText("Número de contrato: 1");
         getContentPane().add(lblNumeroDeContrato);
@@ -97,9 +98,9 @@ public class MenuContrato extends javax.swing.JFrame {
 
         lblValorMensual.setText("Valor Mensual");
         getContentPane().add(lblValorMensual);
-        lblValorMensual.setBounds(230, 250, 110, 16);
+        lblValorMensual.setBounds(230, 250, 110, 17);
         getContentPane().add(txtValorMensual);
-        txtValorMensual.setBounds(330, 250, 110, 22);
+        txtValorMensual.setBounds(330, 250, 110, 27);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -108,11 +109,11 @@ public class MenuContrato extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(550, 470, 100, 23);
+        btnEliminar.setBounds(380, 470, 100, 27);
 
         lblContratos.setText("Contratos");
         getContentPane().add(lblContratos);
-        lblContratos.setBounds(20, 310, 70, 16);
+        lblContratos.setBounds(20, 310, 70, 17);
 
         lstContratos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -122,7 +123,7 @@ public class MenuContrato extends javax.swing.JFrame {
         jScrollPane3.setViewportView(lstContratos);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(100, 310, 429, 130);
+        jScrollPane3.setBounds(100, 310, 500, 130);
 
         btnRegistrar1.setText("Registrar");
         btnRegistrar1.addActionListener(new java.awt.event.ActionListener() {
@@ -131,9 +132,9 @@ public class MenuContrato extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRegistrar1);
-        btnRegistrar1.setBounds(420, 470, 100, 23);
+        btnRegistrar1.setBounds(250, 470, 100, 27);
 
-        setBounds(0, 0, 696, 543);
+        setBounds(0, 0, 707, 543);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -219,6 +220,49 @@ public class MenuContrato extends javax.swing.JFrame {
         }
         lstEmpleados.setModel(modeloEmpleados);
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        java.awt.Color fondo = java.awt.Color.DARK_GRAY;
+        java.awt.Color texto = java.awt.Color.WHITE;
+        java.awt.Color borde = java.awt.Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        // Labels
+        javax.swing.JLabel[] labels = {
+            lblClientes, lblVehiculos, lblEmpleados, lblNumeroDeContrato,
+            lblValorMensual, lblContratos
+        };
+        for (javax.swing.JLabel lbl : labels) {
+            lbl.setForeground(texto);
+        }
+
+        // TextField
+        txtValorMensual.setBackground(fondo);
+        txtValorMensual.setForeground(texto);
+        txtValorMensual.setCaretColor(texto);
+        txtValorMensual.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+
+        // Botones
+        javax.swing.JButton[] botones = {btnRegistrar1, btnEliminar};
+        for (javax.swing.JButton btn : botones) {
+            btn.setBackground(fondo);
+            btn.setForeground(texto);
+            btn.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+        }
+
+        // Listas
+        javax.swing.JList[] listas = {lstClientes, lstVehiculos, lstEmpleados, lstContratos};
+        for (javax.swing.JList lista : listas) {
+            lista.setBackground(fondo);
+            lista.setForeground(texto);
+            lista.setSelectionBackground(new java.awt.Color(70, 130, 180));
+            lista.setSelectionForeground(java.awt.Color.WHITE);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
