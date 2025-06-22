@@ -16,6 +16,7 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
         lblAutor1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Información de autores");
@@ -23,21 +24,30 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
 
         lblAutor2.setText("Juan Manuel Martinez - 315351");
         getContentPane().add(lblAutor2);
-        lblAutor2.setBounds(380, 380, 180, 40);
+        lblAutor2.setBounds(310, 370, 180, 40);
 
         lblAutor1.setText("Ezra Kai Alvez - 297416");
         getContentPane().add(lblAutor1);
-        lblAutor1.setBounds(50, 380, 150, 40);
+        lblAutor1.setBounds(60, 370, 150, 40);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Autor1.jpeg"))); // NOI18N
         jButton1.setText("jButton1");
         getContentPane().add(jButton1);
-        jButton1.setBounds(80, 200, 75, 23);
+        jButton1.setBounds(50, 770, 170, 40);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Autor2.jpeg"))); // NOI18N
         jButton2.setText("jButton2");
+        jButton2.setMaximumSize(new java.awt.Dimension(407, 336));
+        jButton2.setMinimumSize(new java.awt.Dimension(407, 336));
         getContentPane().add(jButton2);
-        jButton2.setBounds(420, 210, 75, 23);
+        jButton2.setBounds(290, 20, 210, 330);
 
-        setBounds(0, 0, 631, 456);
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Autor1.jpeg"))); // NOI18N
+        jButton4.setText("jButton2");
+        getContentPane().add(jButton4);
+        jButton4.setBounds(20, 20, 220, 330);
+
+        setBounds(0, 0, 539, 485);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -79,6 +89,7 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel lblAutor1;
     private javax.swing.JLabel lblAutor2;
     // End of variables declaration//GEN-END:variables
