@@ -205,7 +205,7 @@ public class MenuVehiculo extends javax.swing.JFrame {
     private void actualizarListaVehiculos() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
         for (Vehiculo vehiculo : sistema.getListaVehiculos()) {
-            modelo.addElement(vehiculo.toString());
+            modelo.addElement(vehiculo.getMatricula().toUpperCase());
         }
         lstVehiculos.setModel(modelo);
     }

@@ -369,15 +369,18 @@ public class Sistema implements Serializable {
 
 
     public String getEstadiaMasLarga() {
+        Duration duracionMax = Duration.ZERO;
         Entrada entradaMax = null;
         Salida salidaMax = null;
-        Duration duracionMax = Duration.ZERO;
 
         for (Entrada entrada : listaEntradas) {
             if (entrada.isSalidaRegistrada()) {
-                // Buscar su salida asociada
                 for (Salida salida : listaSalidas) {
-                    if (salida.getEntrada() == entrada) {
+                    Entrada eSal = salida.getEntrada();
+                    if (eSal.getVehiculo().getMatricula().equalsIgnoreCase(entrada.getVehiculo().getMatricula())
+                        && eSal.getFecha().equals(entrada.getFecha())
+                        && eSal.getHora().equals(entrada.getHora())) {
+
                         LocalDateTime entradaDT = entrada.getFechaYHora();
                         LocalDateTime salidaDT = salida.getFechaYHora();
 
@@ -401,11 +404,12 @@ public class Sistema implements Serializable {
         long horas = duracionMax.toHours();
         long minutos = duracionMax.toMinutes() % 60;
 
-        return "Vehículo: " + entradaMax.getVehiculo().getMatricula() +
+        return "Vehículo: " + entradaMax.getVehiculo().getMatricula().toUpperCase() +
                "\nEmpleado entrada: " + entradaMax.getEmpleado().getNombre() +
                "\nEmpleado salida: " + salidaMax.getEmpleado().getNombre() +
                "\nDuración: " + horas + " horas y " + minutos + " minutos";
     }
+
     
     public ArrayList<String> obtenerEmpleadosConMenosMovimientos() {
         HashMap<String, Integer> mapaMovimientos = new HashMap<>();
@@ -439,5 +443,27 @@ public class Sistema implements Serializable {
 
         return resultado;
     }
+    
+    public ArrayList<String> obtenerClientesConMasContratos() {
+        HashMap<String, Integer> mapaContratos = new HashMap<>();
+
+        for (Contrato c : listaContratos) {
+            String nombreCliente = c.getCliente().getNombre();
+            mapaContratos.put(nombreCliente, mapaContratos.getOrDefault(nombreCliente, 0) + 1);
+        }
+
+        // Ordenamos por cantidad descendente
+        ArrayList<Map.Entry<String, Integer>> listaOrdenada = new ArrayList<>(mapaContratos.entrySet());
+        listaOrdenada.sort((a, b) -> b.getValue() - a.getValue());
+
+        ArrayList<String> resultado = new ArrayList<>();
+        for (int i = 0; i < Math.min(3, listaOrdenada.size()); i++) {
+            Map.Entry<String, Integer> entry = listaOrdenada.get(i);
+            resultado.add(entry.getKey().toUpperCase() + " - Contratos: " + entry.getValue());
+        }
+
+        return resultado;
+    }
+
     
 }

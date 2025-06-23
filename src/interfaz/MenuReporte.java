@@ -33,6 +33,7 @@ public class MenuReporte extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         pack();
+        aplicarTema();
         setVisible(true);       
         cbTodosMovimientosHistorial.addActionListener(e -> {
         cbEntradasHistorial.setSelected(false);
@@ -84,6 +85,13 @@ public class MenuReporte extends javax.swing.JFrame {
         }
         
         lstEmpleadosPocosMovimientos.setModel(modeloEmpleados);
+        
+        DefaultListModel<String> modeloClientes = new DefaultListModel<>();
+        for (String s : sistema.obtenerClientesConMasContratos()) {
+            modeloClientes.addElement(s);
+        }
+        
+        lstClientesMasContratos.setModel(modeloClientes);
 
     }
 
@@ -519,6 +527,66 @@ public class MenuReporte extends javax.swing.JFrame {
         panelMovimientosPorFranja.repaint();
     }//GEN-LAST:event_btnConsultarMovimientosActionPerformed
 
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        Color fondo = Color.DARK_GRAY;
+        Color texto = Color.WHITE;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+        jPanel1.setBackground(fondo);
+        jPanel2.setBackground(fondo);
+        jPanel3.setBackground(fondo);
+        panelMovimientosPorFranja.setBackground(fondo);
+
+        // Labels
+        JLabel[] labels = {
+            lblVehiculos, lblVehiculos1, lblVehiculos2, lblVehiculos3, lblVehiculos4,
+            lblVehiculos5, lblVehiculos6, lblVehiculos7, lblVehiculos8
+        };
+        for (JLabel lbl : labels) {
+            lbl.setForeground(texto);
+        }
+
+        // Checkboxes
+        javax.swing.JCheckBox[] checks = {
+            cbEntradasHistorial, cbOrdenCrecienteHistorial, cbOrdenDecrecienteHistorial,
+            cbSalidasHistorial, cbServiciosHistorial, cbTodosMovimientosHistorial
+        };
+        for (javax.swing.JCheckBox cb : checks) {
+            cb.setBackground(fondo);
+            cb.setForeground(texto);
+        }
+
+        // TextField
+        txtFechaYHoraMovimientos.setBackground(fondo);
+        txtFechaYHoraMovimientos.setForeground(texto);
+        txtFechaYHoraMovimientos.setCaretColor(texto);
+        txtFechaYHoraMovimientos.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+
+        // Botones
+        JButton[] botones = {btnConsultarHistorial, btnExportarHistorial, btnConsultarMovimientos};
+        for (JButton b : botones) {
+            b.setBackground(fondo);
+            b.setForeground(texto);
+            b.setBorder(javax.swing.BorderFactory.createLineBorder(borde));
+        }
+
+        // Listas
+        javax.swing.JList[] listas = {
+            lstVehiculosHistorial, lstClientesMasContratos,
+            lstServiciosMasUtilizados, lstEmpleadosPocosMovimientos
+        };
+        for (javax.swing.JList lista : listas) {
+            lista.setBackground(fondo);
+            lista.setForeground(texto);
+            lista.setSelectionBackground(new Color(70, 130, 180));
+            lista.setSelectionForeground(Color.WHITE);
+        }
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarHistorial;

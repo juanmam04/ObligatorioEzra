@@ -1,0 +1,4 @@
+21/02/2025 19:30 | Salida | juan carlos | 
+21/02/2025 17:00 | Entrada | Favian | 
+21/02/2025 17:00 | Servicio | Favian | limpieza de tapizado - $3000.0
+21/02/2025 17:00 | Servicio | Favian | lavado - $400.0

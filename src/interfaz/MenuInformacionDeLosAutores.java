@@ -2,12 +2,44 @@
 
 package interfaz;
 
+import dominio.Sistema;
+import java.awt.Color;
+import java.awt.Image;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+
 public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
 
-    public MenuInformacionDeLosAutores() {
+    private Sistema sistema;
+
+    public MenuInformacionDeLosAutores(Sistema unSistema) {
+        this.sistema = unSistema;
         initComponents();
         setLocationRelativeTo(null);
+        aplicarTema();
+        redimensionarImagenes();
     }
+    
+    private void aplicarTema() {
+        if (!sistema.isModoOscuro()) return;
+
+        Color fondo = Color.DARK_GRAY;
+        Color texto = Color.WHITE;
+        Color borde = Color.WHITE;
+
+        getContentPane().setBackground(fondo);
+
+        lblAutor1.setForeground(texto);
+        lblAutor2.setForeground(texto);
+
+        javax.swing.JButton[] botones = { jButton1, jButton2, jButton4 };
+        for (javax.swing.JButton btn : botones) {
+            btn.setBackground(fondo);
+            btn.setForeground(texto);
+            btn.setBorder(BorderFactory.createLineBorder(borde));
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -24,11 +56,11 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
 
         lblAutor2.setText("Juan Manuel Martinez - 315351");
         getContentPane().add(lblAutor2);
-        lblAutor2.setBounds(310, 370, 180, 40);
+        lblAutor2.setBounds(300, 370, 240, 40);
 
         lblAutor1.setText("Ezra Kai Alvez - 297416");
         getContentPane().add(lblAutor1);
-        lblAutor1.setBounds(60, 370, 150, 40);
+        lblAutor1.setBounds(60, 370, 210, 40);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Autor1.jpeg"))); // NOI18N
         jButton1.setText("jButton1");
@@ -40,7 +72,7 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
         jButton2.setMaximumSize(new java.awt.Dimension(407, 336));
         jButton2.setMinimumSize(new java.awt.Dimension(407, 336));
         getContentPane().add(jButton2);
-        jButton2.setBounds(290, 20, 210, 330);
+        jButton2.setBounds(280, 20, 210, 330);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Autor1.jpeg"))); // NOI18N
         jButton4.setText("jButton2");
@@ -50,40 +82,17 @@ public class MenuInformacionDeLosAutores extends javax.swing.JFrame {
         setBounds(0, 0, 539, 485);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuInformacionDeLosAutores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuInformacionDeLosAutores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuInformacionDeLosAutores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuInformacionDeLosAutores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    
+    private void redimensionarImagenes() {
+        // Imagen de jButton2 (Juan Manuel)
+        ImageIcon originalIcon2 = new ImageIcon(getClass().getResource("/images/Autor2.jpeg"));
+        Image imagenRedim2 = originalIcon2.getImage().getScaledInstance(230, 330, Image.SCALE_SMOOTH);
+        jButton2.setIcon(new ImageIcon(imagenRedim2));
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuInformacionDeLosAutores().setVisible(true);
-            }
-        });
+        // Imagen de jButton4 (Ezra)
+        ImageIcon originalIcon1 = new ImageIcon(getClass().getResource("/images/Autor1.jpeg"));
+        Image imagenRedim1 = originalIcon1.getImage().getScaledInstance(220, 330, Image.SCALE_SMOOTH);
+        jButton4.setIcon(new ImageIcon(imagenRedim1));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

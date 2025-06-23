@@ -52,7 +52,7 @@ public class Vehiculo implements Serializable{
         return "<html>" +
                "Matrícula: " + this.getMatricula().toUpperCase() + "<br>" +
                "Marca: " + this.getMarca().toUpperCase() + "<br>" +
-               "Modelo: " + this.getModelo() + "<br>" +
+               "Modelo: " + this.getModelo().toUpperCase() + "<br>" +
                "Estado: " + this.getEstado().toUpperCase() +
                "</html>";
     }

@@ -335,7 +335,7 @@ public class MenuParking extends javax.swing.JFrame {
     }//GEN-LAST:event_itmMinijuegoActionPerformed
 
     private void itmInformacionDeAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmInformacionDeAutoresActionPerformed
-        MenuInformacionDeLosAutores menu = new MenuInformacionDeLosAutores();
+        MenuInformacionDeLosAutores menu = new MenuInformacionDeLosAutores(sistema);
         menu.setVisible(true);
 
     }//GEN-LAST:event_itmInformacionDeAutoresActionPerformed
