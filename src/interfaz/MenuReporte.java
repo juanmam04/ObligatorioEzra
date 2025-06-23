@@ -18,43 +18,51 @@ public class MenuReporte extends javax.swing.JFrame {
     
     private Sistema sistema;
 
-
     public MenuReporte(Sistema unSistema) {
         this.sistema = unSistema;
         initComponents();
         setLocationRelativeTo(null);
-        
-        cbTodos.addActionListener(e -> {
-        cbEntradas.setSelected(false);
-        cbSalidas.setSelected(false);
-        cbServicios.setSelected(false);
+        pack();
+        setVisible(true);       
+        cbTodosMovimientosHistorial.addActionListener(e -> {
+        cbEntradasHistorial.setSelected(false);
+        cbSalidasHistorial.setSelected(false);
+        cbServiciosHistorial.setSelected(false);
         });
 
-        cbEntradas.addActionListener(e -> {
-            cbTodos.setSelected(false);
-            cbSalidas.setSelected(false);
-            cbServicios.setSelected(false);
+        cbEntradasHistorial.addActionListener(e -> {
+            cbTodosMovimientosHistorial.setSelected(false);
+            cbSalidasHistorial.setSelected(false);
+            cbServiciosHistorial.setSelected(false);
         });
 
-        cbSalidas.addActionListener(e -> {
-            cbTodos.setSelected(false);
-            cbEntradas.setSelected(false);
-            cbServicios.setSelected(false);
+        cbSalidasHistorial.addActionListener(e -> {
+            cbTodosMovimientosHistorial.setSelected(false);
+            cbEntradasHistorial.setSelected(false);
+            cbServiciosHistorial.setSelected(false);
         });
 
-        cbServicios.addActionListener(e -> {
-            cbTodos.setSelected(false);
-            cbEntradas.setSelected(false);
-            cbSalidas.setSelected(false);
+        cbServiciosHistorial.addActionListener(e -> {
+            cbTodosMovimientosHistorial.setSelected(false);
+            cbEntradasHistorial.setSelected(false);
+            cbSalidasHistorial.setSelected(false);
         });
         
-        cbOrdenCreciente.addActionListener(e -> cbOrdenDecreciente.setSelected(false));
-        cbOrdenDecreciente.addActionListener(e -> cbOrdenCreciente.setSelected(false));
+        cbOrdenCrecienteHistorial.addActionListener(e -> cbOrdenDecrecienteHistorial.setSelected(false));
+        cbOrdenDecrecienteHistorial.addActionListener(e -> cbOrdenCrecienteHistorial.setSelected(false));
         
-        cbTodos.setSelected(true);
-        cbOrdenCreciente.setSelected(true);
+        cbTodosMovimientosHistorial.setSelected(true);
+        cbOrdenCrecienteHistorial.setSelected(true);
         
+        DefaultListModel<String> modeloVehiculos = new DefaultListModel<>();
+        for (Vehiculo v : sistema.getListaVehiculos()) {
+            modeloVehiculos.addElement(v.getMatricula().toUpperCase());
+        }
+        lstVehiculosHistorial.setModel(modeloVehiculos);
     }
+    
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,16 +77,16 @@ public class MenuReporte extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblVehiculos = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        lstVehiculos = new javax.swing.JList<>();
+        lstVehiculosHistorial = new javax.swing.JList<>();
         lblVehiculos1 = new javax.swing.JLabel();
         lblVehiculos2 = new javax.swing.JLabel();
-        cbOrdenDecreciente = new javax.swing.JCheckBox();
-        cbServicios = new javax.swing.JCheckBox();
-        cbOrdenCreciente = new javax.swing.JCheckBox();
-        cbTodos = new javax.swing.JCheckBox();
-        cbEntradas = new javax.swing.JCheckBox();
-        cbSalidas = new javax.swing.JCheckBox();
-        btnConsultar = new javax.swing.JButton();
+        cbOrdenDecrecienteHistorial = new javax.swing.JCheckBox();
+        cbServiciosHistorial = new javax.swing.JCheckBox();
+        cbOrdenCrecienteHistorial = new javax.swing.JCheckBox();
+        cbTodosMovimientosHistorial = new javax.swing.JCheckBox();
+        cbEntradasHistorial = new javax.swing.JCheckBox();
+        cbSalidasHistorial = new javax.swing.JCheckBox();
+        btnExportarHistorial = new javax.swing.JButton();
         btnConsultarHistorial = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHistorial = new javax.swing.JTable();
@@ -105,7 +113,8 @@ public class MenuReporte extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Reportes");
 
         jPanel1.setLayout(null);
 
@@ -113,12 +122,12 @@ public class MenuReporte extends javax.swing.JFrame {
         jPanel1.add(lblVehiculos);
         lblVehiculos.setBounds(250, 20, 130, 17);
 
-        lstVehiculos.setModel(new javax.swing.AbstractListModel<String>() {
+        lstVehiculosHistorial.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(lstVehiculos);
+        jScrollPane5.setViewportView(lstVehiculosHistorial);
 
         jPanel1.add(jScrollPane5);
         jScrollPane5.setBounds(20, 60, 207, 158);
@@ -131,68 +140,68 @@ public class MenuReporte extends javax.swing.JFrame {
         jPanel1.add(lblVehiculos2);
         lblVehiculos2.setBounds(20, 20, 90, 17);
 
-        cbOrdenDecreciente.setText("Decreciente");
-        cbOrdenDecreciente.addActionListener(new java.awt.event.ActionListener() {
+        cbOrdenDecrecienteHistorial.setText("Decreciente");
+        cbOrdenDecrecienteHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbOrdenDecrecienteActionPerformed(evt);
+                cbOrdenDecrecienteHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbOrdenDecreciente);
-        cbOrdenDecreciente.setBounds(510, 20, 110, 21);
+        jPanel1.add(cbOrdenDecrecienteHistorial);
+        cbOrdenDecrecienteHistorial.setBounds(510, 20, 110, 21);
 
-        cbServicios.setText("Servicios");
-        cbServicios.addActionListener(new java.awt.event.ActionListener() {
+        cbServiciosHistorial.setText("Servicios");
+        cbServiciosHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbServiciosActionPerformed(evt);
+                cbServiciosHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbServicios);
-        cbServicios.setBounds(350, 160, 90, 21);
+        jPanel1.add(cbServiciosHistorial);
+        cbServiciosHistorial.setBounds(350, 160, 90, 21);
 
-        cbOrdenCreciente.setText("Creciente");
-        cbOrdenCreciente.addActionListener(new java.awt.event.ActionListener() {
+        cbOrdenCrecienteHistorial.setText("Creciente");
+        cbOrdenCrecienteHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbOrdenCrecienteActionPerformed(evt);
+                cbOrdenCrecienteHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbOrdenCreciente);
-        cbOrdenCreciente.setBounds(400, 20, 90, 21);
+        jPanel1.add(cbOrdenCrecienteHistorial);
+        cbOrdenCrecienteHistorial.setBounds(400, 20, 90, 21);
 
-        cbTodos.setText("Todos");
-        cbTodos.addActionListener(new java.awt.event.ActionListener() {
+        cbTodosMovimientosHistorial.setText("Todos");
+        cbTodosMovimientosHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTodosActionPerformed(evt);
+                cbTodosMovimientosHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbTodos);
-        cbTodos.setBounds(350, 70, 90, 21);
+        jPanel1.add(cbTodosMovimientosHistorial);
+        cbTodosMovimientosHistorial.setBounds(350, 70, 90, 21);
 
-        cbEntradas.setText("Entradas");
-        cbEntradas.addActionListener(new java.awt.event.ActionListener() {
+        cbEntradasHistorial.setText("Entradas");
+        cbEntradasHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEntradasActionPerformed(evt);
+                cbEntradasHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbEntradas);
-        cbEntradas.setBounds(350, 100, 90, 21);
+        jPanel1.add(cbEntradasHistorial);
+        cbEntradasHistorial.setBounds(350, 100, 90, 21);
 
-        cbSalidas.setText("Salidas");
-        cbSalidas.addActionListener(new java.awt.event.ActionListener() {
+        cbSalidasHistorial.setText("Salidas");
+        cbSalidasHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSalidasActionPerformed(evt);
+                cbSalidasHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(cbSalidas);
-        cbSalidas.setBounds(350, 130, 90, 21);
+        jPanel1.add(cbSalidasHistorial);
+        cbSalidasHistorial.setBounds(350, 130, 90, 21);
 
-        btnConsultar.setText("Exportar");
-        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+        btnExportarHistorial.setText("Exportar");
+        btnExportarHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsultarActionPerformed(evt);
+                btnExportarHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnConsultar);
-        btnConsultar.setBounds(420, 210, 110, 27);
+        jPanel1.add(btnExportarHistorial);
+        btnExportarHistorial.setBounds(420, 210, 110, 27);
 
         btnConsultarHistorial.setText("Consultar");
         btnConsultarHistorial.addActionListener(new java.awt.event.ActionListener() {
@@ -302,60 +311,84 @@ public class MenuReporte extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbOrdenDecrecienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenDecrecienteActionPerformed
+    private void cbOrdenDecrecienteHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenDecrecienteHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbOrdenDecrecienteActionPerformed
+    }//GEN-LAST:event_cbOrdenDecrecienteHistorialActionPerformed
 
-    private void cbServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbServiciosActionPerformed
+    private void cbServiciosHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbServiciosHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbServiciosActionPerformed
+    }//GEN-LAST:event_cbServiciosHistorialActionPerformed
 
-    private void cbOrdenCrecienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenCrecienteActionPerformed
+    private void cbOrdenCrecienteHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenCrecienteHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbOrdenCrecienteActionPerformed
+    }//GEN-LAST:event_cbOrdenCrecienteHistorialActionPerformed
 
-    private void cbTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTodosActionPerformed
+    private void cbTodosMovimientosHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTodosMovimientosHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbTodosActionPerformed
+    }//GEN-LAST:event_cbTodosMovimientosHistorialActionPerformed
 
-    private void cbEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEntradasActionPerformed
+    private void cbEntradasHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEntradasHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbEntradasActionPerformed
+    }//GEN-LAST:event_cbEntradasHistorialActionPerformed
 
-    private void cbSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSalidasActionPerformed
+    private void cbSalidasHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSalidasHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbSalidasActionPerformed
+    }//GEN-LAST:event_cbSalidasHistorialActionPerformed
 
-    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+    private void btnExportarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarHistorialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnConsultarActionPerformed
+        String matricula = lstVehiculosHistorial.getSelectedValue();
+        if (matricula == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un vehículo.");
+            return;
+        }
+
+        boolean entradas = cbEntradasHistorial.isSelected();
+        boolean salidas = cbSalidasHistorial.isSelected();
+        boolean servicios = cbServiciosHistorial.isSelected();
+        boolean todos = cbTodosMovimientosHistorial.isSelected();
+        boolean creciente = cbOrdenCrecienteHistorial.isSelected();
+
+        ArrayList<String[]> resultados = sistema.generarHistorialDeVehiculo(
+            matricula.trim().toUpperCase(), entradas, salidas, servicios, todos, creciente);
+
+        try (java.io.PrintWriter writer = new java.io.PrintWriter(matricula + ".txt")) {
+            for (String[] fila : resultados) {
+                String linea = String.join(" | ", fila); // separador visible
+                writer.println(linea);
+            }
+            JOptionPane.showMessageDialog(this, "Historial exportado como " + matricula + ".txt");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al exportar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnExportarHistorialActionPerformed
 
     private void btnConsultarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarHistorialActionPerformed
         DefaultTableModel modelo = (DefaultTableModel) tblHistorial.getModel();
         modelo.setRowCount(0); // limpiar tabla
 
-        String matriculaSeleccionada = lstVehiculos.getSelectedValue();
+        String matriculaSeleccionada = lstVehiculosHistorial.getSelectedValue();
         if (matriculaSeleccionada == null) {
             JOptionPane.showMessageDialog(this, "Seleccioná un vehículo.");
             return;
         }
 
         String matricula = matriculaSeleccionada.trim().toUpperCase();
-        boolean entradas = cbEntradas.isSelected();
-        boolean salidas = cbSalidas.isSelected();
-        boolean servicios = cbServicios.isSelected();
-        boolean todos = cbTodos.isSelected();
-        boolean creciente = cbOrdenCreciente.isSelected();
+        boolean entradas = cbEntradasHistorial.isSelected();
+        boolean salidas = cbSalidasHistorial.isSelected();
+        boolean servicios = cbServiciosHistorial.isSelected();
+        boolean todos = cbTodosMovimientosHistorial.isSelected();
+        boolean creciente = cbOrdenCrecienteHistorial.isSelected();
 
         ArrayList<String[]> resultados = sistema.generarHistorialDeVehiculo(matricula, entradas, salidas, servicios, todos, creciente);
 
@@ -374,17 +407,17 @@ public class MenuReporte extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnConsultarHistorial;
     private javax.swing.JButton btnConsultarMovimientos;
+    private javax.swing.JButton btnExportarHistorial;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JCheckBox cbEntradas;
-    private javax.swing.JCheckBox cbOrdenCreciente;
-    private javax.swing.JCheckBox cbOrdenDecreciente;
-    private javax.swing.JCheckBox cbSalidas;
-    private javax.swing.JCheckBox cbServicios;
-    private javax.swing.JCheckBox cbTodos;
+    private javax.swing.JCheckBox cbEntradasHistorial;
+    private javax.swing.JCheckBox cbOrdenCrecienteHistorial;
+    private javax.swing.JCheckBox cbOrdenDecrecienteHistorial;
+    private javax.swing.JCheckBox cbSalidasHistorial;
+    private javax.swing.JCheckBox cbServiciosHistorial;
+    private javax.swing.JCheckBox cbTodosMovimientosHistorial;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -409,7 +442,7 @@ public class MenuReporte extends javax.swing.JFrame {
     private javax.swing.JList<String> lstClientesMasContratos;
     private javax.swing.JList<String> lstEmpleadosPocosMovimientos;
     private javax.swing.JList<String> lstServiciosMasUtilizados;
-    private javax.swing.JList<String> lstVehiculos;
+    private javax.swing.JList<String> lstVehiculosHistorial;
     private javax.swing.JTable tblHistorial;
     private javax.swing.JTextField txtFechaYHoraMovimientos;
     // End of variables declaration//GEN-END:variables

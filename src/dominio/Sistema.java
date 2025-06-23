@@ -4,6 +4,7 @@ package dominio;
 
 import java.io.Serializable; // Importar la interfaz Serializable
 import java.util.ArrayList;
+import java.util.Comparator;
 
 // La clase Sistema debe implementar Serializable
 public class Sistema implements Serializable {
@@ -258,6 +259,45 @@ public class Sistema implements Serializable {
             }
         }
         return servicios;
+    }
+    
+    // Reportes
+    
+    public ArrayList<String[]> generarHistorialDeVehiculo(String matricula, boolean entradas, boolean salidas, boolean servicios, boolean todos, boolean ascendente) {
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        if (todos || entradas) {
+            for (Entrada e : this.getListaEntradas()) {
+                if (e.getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
+                    resultado.add(new String[]{e.getFecha() + " " + e.getHora(), "Entrada", e.getEmpleado().getNombre(), e.getNota()});
+                }
+            }
+        }
+
+        if (todos || salidas) {
+            for (Salida s : this.getListaSalidas()) {
+                if (s.getEntrada().getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
+                    resultado.add(new String[]{s.getFecha() + " " + s.getHora(), "Salida", s.getEmpleado().getNombre(), s.getComentario()});
+                }
+            }
+        }
+
+        if (todos || servicios) {
+            for (ServicioAdicional sa : this.getListaServiciosAdicionales()) {
+                if (sa.getVehiculo().getMatricula().equalsIgnoreCase(matricula)) {
+                    resultado.add(new String[]{sa.getFecha() + " " + sa.getHora(), "Servicio", sa.getEmpleado().getNombre(), sa.getTipo() + " - $" + sa.getCosto()});
+                }
+            }
+        }
+
+        // ordenar por fecha si hay datos
+        if (ascendente) {
+            resultado.sort(Comparator.comparing(arr -> arr[0]));
+        } else {
+            resultado.sort(Comparator.comparing((String[] arr) -> arr[0]).reversed());
+        }
+
+        return resultado;
     }
     
 }
