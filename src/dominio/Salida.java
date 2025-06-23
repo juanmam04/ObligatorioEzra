@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 
 public class Salida implements Serializable{
     private Entrada entrada;
@@ -20,6 +22,19 @@ public class Salida implements Serializable{
         this.setHora(unaHora);
         this.setEmpleado(unEmpleado);
         this.setComentario(unComentario);
+    }
+    
+    public LocalDateTime getFechaYHora() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return LocalDateTime.parse(fecha + " " + hora, formatter);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public Vehiculo getVehiculo() {
+        return entrada != null ? entrada.getVehiculo() : null;
     }
 
     public Entrada getEntrada() {

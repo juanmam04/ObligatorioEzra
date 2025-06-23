@@ -2,6 +2,10 @@
 package dominio;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
 public class Entrada implements Serializable{
     private Vehiculo vehiculo;
     private String fecha; 
@@ -18,6 +22,16 @@ public class Entrada implements Serializable{
         this.nota = unaNota;
         this.salidaRegistrada = false;
     }
+    
+    public LocalDateTime getFechaYHora() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return LocalDateTime.parse(fecha + " " + hora, formatter);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     public Vehiculo getVehiculo() {
         return vehiculo;
@@ -69,7 +83,6 @@ public class Entrada implements Serializable{
 
     @Override
     public String toString() {
-        return String.format("Vehículo: %s - Fecha: %s - Hora: %s - Empleado: %s - Nota: %s",
-                vehiculo.getMatricula(), fecha, hora, empleado.getNombre(), nota);
+        return empleado.getNombre().toUpperCase(); // o podés personalizarlo más si querés
     }
 }

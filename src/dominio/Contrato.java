@@ -1,6 +1,9 @@
 //Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
 package dominio;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Contrato implements Serializable{
 
     private static int contador = 1;
@@ -9,6 +12,9 @@ public class Contrato implements Serializable{
     private Vehiculo vehiculo;
     private Empleado empleado;
     private String valor;
+    private String fecha; // "dd/MM/yyyy"
+    private String hora;  // "HH:mm"
+
 
     public Contrato(Cliente cliente, Vehiculo vehiculo, Empleado empleado, String valor) {
         this.numero = contador++;
@@ -16,7 +22,19 @@ public class Contrato implements Serializable{
         this.vehiculo = vehiculo;
         this.empleado = empleado;
         this.valor = valor;
+        this.fecha = fecha;
+        this.hora = hora;
     }
+    
+    public LocalDateTime getFechaYHora() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return LocalDateTime.parse(fecha + " " + hora, formatter);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     // Getters
     public int getNumero() {
@@ -37,6 +55,14 @@ public class Contrato implements Serializable{
 
     public String getValor() {
         return valor;
+    }
+    
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getHora() {
+        return hora;
     }
 
     // Setters

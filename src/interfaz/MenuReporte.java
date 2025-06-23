@@ -1,5 +1,7 @@
 //Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
 
+// Muchisima ayuda de ChatGPT pero siempre entendiendo lo que estamos agregando
+
 package interfaz;
 
 import dominio.Sistema;
@@ -11,7 +13,15 @@ import dominio.Contrato;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class MenuReporte extends javax.swing.JFrame {
@@ -59,10 +69,23 @@ public class MenuReporte extends javax.swing.JFrame {
             modeloVehiculos.addElement(v.getMatricula().toUpperCase());
         }
         lstVehiculosHistorial.setModel(modeloVehiculos);
+        
+        DefaultListModel<String> modeloServicios = new DefaultListModel<>();
+        for (String s : sistema.obtenerServiciosMasUtilizados()) {
+            modeloServicios.addElement(s);
+        }
+        lstServiciosMasUtilizados.setModel(modeloServicios);
+        
+        lblVehiculos5.setText(sistema.getEstadiaMasLarga());
+        
+        DefaultListModel<String> modeloEmpleados = new DefaultListModel<>();
+        for (String s : sistema.obtenerEmpleadosConMenosMovimientos()) {
+            modeloEmpleados.addElement(s);
+        }
+        
+        lstEmpleadosPocosMovimientos.setModel(modeloEmpleados);
+
     }
-    
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -94,6 +117,7 @@ public class MenuReporte extends javax.swing.JFrame {
         lblVehiculos3 = new javax.swing.JLabel();
         txtFechaYHoraMovimientos = new javax.swing.JTextField();
         btnConsultarMovimientos = new javax.swing.JButton();
+        panelMovimientosPorFranja = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lblVehiculos4 = new javax.swing.JLabel();
         lblVehiculos5 = new javax.swing.JLabel();
@@ -234,7 +258,7 @@ public class MenuReporte extends javax.swing.JFrame {
 
         lblVehiculos3.setText("Fecha a consultar (dd/MM/aaaa)");
         jPanel2.add(lblVehiculos3);
-        lblVehiculos3.setBounds(20, 20, 250, 17);
+        lblVehiculos3.setBounds(10, 20, 200, 17);
 
         txtFechaYHoraMovimientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,7 +266,7 @@ public class MenuReporte extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtFechaYHoraMovimientos);
-        txtFechaYHoraMovimientos.setBounds(220, 20, 270, 27);
+        txtFechaYHoraMovimientos.setBounds(220, 20, 280, 27);
 
         btnConsultarMovimientos.setText("Consultar");
         btnConsultarMovimientos.addActionListener(new java.awt.event.ActionListener() {
@@ -251,7 +275,21 @@ public class MenuReporte extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnConsultarMovimientos);
-        btnConsultarMovimientos.setBounds(510, 20, 110, 27);
+        btnConsultarMovimientos.setBounds(520, 20, 110, 27);
+
+        javax.swing.GroupLayout panelMovimientosPorFranjaLayout = new javax.swing.GroupLayout(panelMovimientosPorFranja);
+        panelMovimientosPorFranja.setLayout(panelMovimientosPorFranjaLayout);
+        panelMovimientosPorFranjaLayout.setHorizontalGroup(
+            panelMovimientosPorFranjaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 580, Short.MAX_VALUE)
+        );
+        panelMovimientosPorFranjaLayout.setVerticalGroup(
+            panelMovimientosPorFranjaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(panelMovimientosPorFranja);
+        panelMovimientosPorFranja.setBounds(30, 80, 580, 340);
 
         jTabbedPane1.addTab("Movimientos", jPanel2);
 
@@ -402,7 +440,83 @@ public class MenuReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFechaYHoraMovimientosActionPerformed
 
     private void btnConsultarMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarMovimientosActionPerformed
-        // TODO add your handling code here:
+        panelMovimientosPorFranja.removeAll();
+        panelMovimientosPorFranja.setLayout(new java.awt.GridLayout(5, 4, 10, 10)); // 4 columnas + 1 título vertical
+
+        String fechaStr = txtFechaYHoraMovimientos.getText().trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fecha;
+        try {
+            fecha = LocalDate.parse(fechaStr, formatter);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Usá dd/MM/yyyy");
+            return;
+        }
+
+        java.util.List<LocalDate> dias = java.util.Arrays.asList(
+            fecha.minusDays(1),
+            fecha,
+            fecha.plusDays(1)
+        );
+
+        String[] franjasHorarias = {
+            "00:00 - 05:59",
+            "06:00 - 11:59",
+            "12:00 - 17:59",
+            "18:00 - 23:59"
+        };
+
+        // Primera celda vacía (esquina superior izquierda)
+        panelMovimientosPorFranja.add(new JLabel(""));
+
+        // Encabezados de fechas
+        for (LocalDate dia : dias) {
+            JLabel lblFecha = new JLabel(dia.format(formatter), SwingConstants.CENTER);
+            lblFecha.setFont(new Font("Arial", Font.BOLD, 14));
+            panelMovimientosPorFranja.add(lblFecha);
+        }
+
+        // Filas de franjas
+        for (int f = 0; f < 4; f++) {
+            // Título de franja horaria
+            JLabel lblFranja = new JLabel(franjasHorarias[f], SwingConstants.CENTER);
+            lblFranja.setFont(new Font("Arial", Font.BOLD, 13));
+            panelMovimientosPorFranja.add(lblFranja);
+
+            int horaInicio = f * 6;
+            int horaFin = horaInicio + 6;
+
+            for (LocalDate dia : dias) {
+                ArrayList<String> movimientos = sistema.getMovimientosEnFranja(dia, horaInicio, horaFin);
+                int cantidad = movimientos.size();
+
+                JButton btn = new JButton(String.valueOf(cantidad));
+                btn.setFont(new Font("Arial", Font.BOLD, 16));
+                btn.setForeground(Color.BLACK);
+                btn.setFocusPainted(false);
+                btn.setOpaque(true);
+                btn.setBorderPainted(false);
+
+                if (cantidad <= 2) {
+                    btn.setBackground(Color.GREEN);
+                } else if (cantidad <= 5) {
+                    btn.setBackground(Color.YELLOW);
+                } else {
+                    btn.setBackground(Color.RED);
+                }
+
+                btn.addActionListener(e -> {
+                    String detalle = String.join("\n", movimientos);
+                    JOptionPane.showMessageDialog(this, detalle.isEmpty() ? "Sin movimientos." : detalle);
+                });
+
+                panelMovimientosPorFranja.add(btn);
+            }
+        }
+
+        panelMovimientosPorFranja.revalidate();
+        panelMovimientosPorFranja.repaint();
     }//GEN-LAST:event_btnConsultarMovimientosActionPerformed
 
 
@@ -443,6 +557,7 @@ public class MenuReporte extends javax.swing.JFrame {
     private javax.swing.JList<String> lstEmpleadosPocosMovimientos;
     private javax.swing.JList<String> lstServiciosMasUtilizados;
     private javax.swing.JList<String> lstVehiculosHistorial;
+    private javax.swing.JPanel panelMovimientosPorFranja;
     private javax.swing.JTable tblHistorial;
     private javax.swing.JTextField txtFechaYHoraMovimientos;
     // End of variables declaration//GEN-END:variables

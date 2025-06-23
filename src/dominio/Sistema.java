@@ -3,8 +3,16 @@
 package dominio;
 
 import java.io.Serializable; // Importar la interfaz Serializable
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 
 // La clase Sistema debe implementar Serializable
 public class Sistema implements Serializable {
@@ -222,6 +230,7 @@ public class Sistema implements Serializable {
         }
         entradaAsociada.setSalidaRegistrada(true);
         listaSalidas.add(unaSalida);
+        System.out.println("Set salidaRegistrada: " + entradaAsociada + " / " + entradaAsociada.getVehiculo().getMatricula());
         return true;
     }
     
@@ -236,8 +245,6 @@ public class Sistema implements Serializable {
     }
     
     private String formatearFechaYHora(String fecha, String hora) {
-        // Convierte "dd/MM/yyyy" + "HH:mm" → "yyyy-MM-ddTHH:mm"
-        // Lo hace para que internamente sea mas facil comparar las fechas para java
         String[] partesFecha = fecha.split("/");
         return String.format("%s-%s-%sT%s", partesFecha[2], partesFecha[1], partesFecha[0], hora);
     }
@@ -290,11 +297,144 @@ public class Sistema implements Serializable {
             }
         }
 
-        // ordenar por fecha si hay datos
         if (ascendente) {
             resultado.sort(Comparator.comparing(arr -> arr[0]));
         } else {
             resultado.sort(Comparator.comparing((String[] arr) -> arr[0]).reversed());
+        }
+
+        return resultado;
+    }
+    
+    public ArrayList<String> getMovimientosEnFranja(LocalDate fecha, int horaInicio, int horaFin) {
+        ArrayList<String> resultado = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Entrada entrada : listaEntradas) {
+            LocalDateTime dt = entrada.getFechaYHora();
+            if (mismaFranja(dt, fecha, horaInicio, horaFin)) {
+                resultado.add("Entrada - " + entrada.getVehiculo().getMatricula() + " - " + dt.format(formatter));
+            }
+        }
+
+        for (Salida salida : listaSalidas) {
+            LocalDateTime dt = salida.getFechaYHora();
+            if (mismaFranja(dt, fecha, horaInicio, horaFin)) {
+                resultado.add("Salida - " + salida.getVehiculo().getMatricula() + " - " + dt.format(formatter));
+            }
+        }
+
+        for (Contrato contrato : listaContratos) {
+            LocalDateTime dt = contrato.getFechaYHora();
+            if (mismaFranja(dt, fecha, horaInicio, horaFin)) {
+                resultado.add("Servicio - " + contrato.getVehiculo().getMatricula() + " - " + dt.format(formatter));
+            }
+        }
+        
+        for (ServicioAdicional servicio : listaServiciosAdicionales) {
+            LocalDateTime dt = servicio.getFechaYHora();
+            if (dt != null && mismaFranja(dt, fecha, horaInicio, horaFin)) {
+                resultado.add("Servicio - " + servicio.getVehiculo().getMatricula() + " - " + dt.format(formatter));
+            }
+        }
+
+        return resultado;
+    }
+
+    private boolean mismaFranja(LocalDateTime dt, LocalDate date, int hInicio, int hFin) {
+        if (dt == null) return false;
+        return dt.toLocalDate().equals(date) &&
+               dt.getHour() >= hInicio &&
+               dt.getHour() < hFin;
+    }
+    
+    public ArrayList<String> obtenerServiciosMasUtilizados() {
+        HashMap<String, Integer> contador = new HashMap<>();
+
+        for (ServicioAdicional s : listaServiciosAdicionales) {
+            String tipo = s.getTipo().toUpperCase();
+            contador.put(tipo, contador.getOrDefault(tipo, 0) + 1);
+        }
+
+        ArrayList<Map.Entry<String, Integer>> listaOrdenada = new ArrayList<>(contador.entrySet());
+        listaOrdenada.sort((a, b) -> b.getValue() - a.getValue());
+
+        ArrayList<String> resultado = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : listaOrdenada) {
+            resultado.add(entry.getKey() + " - " + entry.getValue() + " usos");
+        }
+
+        return resultado;
+    }
+
+
+    public String getEstadiaMasLarga() {
+        Entrada entradaMax = null;
+        Salida salidaMax = null;
+        Duration duracionMax = Duration.ZERO;
+
+        for (Entrada entrada : listaEntradas) {
+            if (entrada.isSalidaRegistrada()) {
+                // Buscar su salida asociada
+                for (Salida salida : listaSalidas) {
+                    if (salida.getEntrada() == entrada) {
+                        LocalDateTime entradaDT = entrada.getFechaYHora();
+                        LocalDateTime salidaDT = salida.getFechaYHora();
+
+                        if (entradaDT != null && salidaDT != null) {
+                            Duration duracion = Duration.between(entradaDT, salidaDT);
+                            if (duracion.compareTo(duracionMax) > 0) {
+                                duracionMax = duracion;
+                                entradaMax = entrada;
+                                salidaMax = salida;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (entradaMax == null || salidaMax == null) {
+            return "No se encontraron estadías registradas.";
+        }
+
+        long horas = duracionMax.toHours();
+        long minutos = duracionMax.toMinutes() % 60;
+
+        return "Vehículo: " + entradaMax.getVehiculo().getMatricula() +
+               "\nEmpleado entrada: " + entradaMax.getEmpleado().getNombre() +
+               "\nEmpleado salida: " + salidaMax.getEmpleado().getNombre() +
+               "\nDuración: " + horas + " horas y " + minutos + " minutos";
+    }
+    
+    public ArrayList<String> obtenerEmpleadosConMenosMovimientos() {
+        HashMap<String, Integer> mapaMovimientos = new HashMap<>();
+
+        // Inicializar con 0
+        for (Empleado emp : listaEmpleados) {
+            mapaMovimientos.put(emp.getNombre(), 0);
+        }
+
+        // Contar entradas
+        for (Entrada e : listaEntradas) {
+            String nombre = e.getEmpleado().getNombre();
+            mapaMovimientos.put(nombre, mapaMovimientos.get(nombre) + 1);
+        }
+
+        // Contar salidas
+        for (Salida s : listaSalidas) {
+            String nombre = s.getEmpleado().getNombre();
+            mapaMovimientos.put(nombre, mapaMovimientos.get(nombre) + 1);
+        }
+
+        // Ordenar por cantidad de movimientos (ascendente)
+        List<Map.Entry<String, Integer>> listaOrdenada = new ArrayList<>(mapaMovimientos.entrySet());
+        listaOrdenada.sort(Map.Entry.comparingByValue());
+
+        ArrayList<String> resultado = new ArrayList<>();
+        for (int i = 0; i < Math.min(3, listaOrdenada.size()); i++) {
+            Map.Entry<String, Integer> entry = listaOrdenada.get(i);
+            resultado.add(entry.getKey() + " - Movimientos: " + entry.getValue());
         }
 
         return resultado;

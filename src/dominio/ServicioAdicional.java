@@ -2,6 +2,8 @@
 
 package dominio;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ServicioAdicional implements Serializable{
 
@@ -19,6 +21,15 @@ public class ServicioAdicional implements Serializable{
         this.setVehiculo(unVehiculo);
         this.setEmpleado(unEmpleado);
         this.setCosto(unCosto);
+    }
+    
+    public LocalDateTime getFechaYHora() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return LocalDateTime.parse(fecha + " " + hora, formatter);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getTipo() {

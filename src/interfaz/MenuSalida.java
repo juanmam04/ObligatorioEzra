@@ -133,12 +133,13 @@ public class MenuSalida extends javax.swing.JFrame {
         String fecha = partes[0];
         String hora = partes[1];
 
-        Vehiculo vehiculo = sistema.getListaVehiculos().get(indexVehiculo);
+        String matriculaSeleccionada = kstVehiculos.getSelectedValue();
         Empleado empleado = sistema.getListaEmpleados().get(indexEmpleado);
-        Entrada entradaAsociada = null;
 
-        for (Entrada entrada : sistema.obtenerEntradasActivas()) {
-            if (entrada.getVehiculo().getMatricula().equalsIgnoreCase(vehiculo.getMatricula())) {
+        Entrada entradaAsociada = null;
+        for (Entrada entrada : sistema.getListaEntradas()) {
+            if (!entrada.isSalidaRegistrada() &&
+                entrada.getVehiculo().getMatricula().equalsIgnoreCase(matriculaSeleccionada)) {
                 entradaAsociada = entrada;
                 break;
             }
@@ -149,17 +150,17 @@ public class MenuSalida extends javax.swing.JFrame {
             return;
         }
 
+        Vehiculo vehiculo = entradaAsociada.getVehiculo();
         Salida salida = new Salida(entradaAsociada, fecha, hora, empleado, comentarios);
+
         if (sistema.agregarSalida(salida)) {
             String mensaje = "Salida registrada correctamente.\n";
 
-            Contrato contrato = null;
-            for (Contrato cont : sistema.getListaContratos()) {
-                if (cont.getVehiculo().getMatricula().equalsIgnoreCase(vehiculo.getMatricula())) {
-                    contrato = cont;
-                    break;
-                }
-            }
+            Contrato contrato = sistema.getListaContratos()
+                .stream()
+                .filter(c -> c.getVehiculo().getMatricula().equalsIgnoreCase(matriculaSeleccionada))
+                .findFirst()
+                .orElse(null);
 
             if (contrato != null) {
                 mensaje += "Contrato activo con valor mensual: " + contrato.getValor();
@@ -168,7 +169,10 @@ public class MenuSalida extends javax.swing.JFrame {
             }
 
             javax.swing.JOptionPane.showMessageDialog(this, mensaje);
-            dispose();
+            cargarListas(); // actualiza lista
+            kstVehiculos.clearSelection();
+            txtFechaYHora.setText("");
+            txtComentarios.setText("");
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar la salida. Revisá la hora o la entrada asociada.");
         }
@@ -185,6 +189,11 @@ public class MenuSalida extends javax.swing.JFrame {
         for (Empleado empleado : sistema.getListaEmpleados()) {
             modeloEmpleados.addElement(empleado.getNombre().toUpperCase());
         }
+        
+        for (Entrada entrada : sistema.getListaEntradas()) {
+            System.out.println("Lista completa: " + entrada.getVehiculo().getMatricula() + " / salidaRegistrada: " + entrada.isSalidaRegistrada());
+        }
+
         lstEmpleado.setModel(modeloEmpleados);
     }
     

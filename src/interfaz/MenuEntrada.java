@@ -6,6 +6,7 @@ import dominio.Sistema;
 import dominio.Empleado;
 import dominio.Entrada;
 import dominio.Vehiculo;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -19,6 +20,7 @@ public class MenuEntrada extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         actualizarListas();
         aplicarTema();
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -93,6 +95,13 @@ public class MenuEntrada extends javax.swing.JFrame {
         setBounds(0, 0, 652, 453);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private ArrayList<Vehiculo> vehiculosVisibles = new ArrayList<>();
+    private ArrayList<Empleado> empleadosVisibles = new ArrayList<>();
+
+
+
+    
     private void lblRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRegistrarActionPerformed
         int indexVehiculo = lstVehiculo.getSelectedIndex();
         int indexEmpleado = lstEmpleado.getSelectedIndex();
@@ -117,8 +126,8 @@ public class MenuEntrada extends javax.swing.JFrame {
             return;
         }
 
-        Vehiculo vehiculoSeleccionado = sistema.getListaVehiculos().get(indexVehiculo);
-        Empleado empleadoSeleccionado = sistema.getListaEmpleados().get(indexEmpleado);
+        Vehiculo vehiculoSeleccionado = vehiculosVisibles.get(indexVehiculo);
+        Empleado empleadoSeleccionado = empleadosVisibles.get(indexEmpleado);
         String nota = txtNotas.getText().trim();
 
         Entrada nueva = new Entrada(vehiculoSeleccionado, fecha, hora, empleadoSeleccionado, nota);
@@ -137,18 +146,25 @@ public class MenuEntrada extends javax.swing.JFrame {
     private void actualizarListas() {
         // Vehículos
         DefaultListModel<String> modeloVehiculos = new DefaultListModel<>();
+        vehiculosVisibles.clear(); 
+
         for (Vehiculo v : sistema.getListaVehiculos()) {
             modeloVehiculos.addElement(v.getMatricula().toUpperCase());
+            vehiculosVisibles.add(v); 
         }
         lstVehiculo.setModel(modeloVehiculos);
 
-        // Empleados
+        // Empleados (usa lista auxiliar)
         DefaultListModel<String> modeloEmpleados = new DefaultListModel<>();
+        empleadosVisibles.clear();
+
         for (Empleado e : sistema.getListaEmpleados()) {
             modeloEmpleados.addElement(e.getNombre().toUpperCase());
+            empleadosVisibles.add(e);
         }
         lstEmpleado.setModel(modeloEmpleados);
     }
+
     
     private void aplicarTema() {
         if (!sistema.isModoOscuro()) return;
