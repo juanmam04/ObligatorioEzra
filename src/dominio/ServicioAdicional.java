@@ -1,8 +1,9 @@
 //Ezra Kai Alvez 297416 & Juan Manuel Martinez 315351
 
 package dominio;
+import java.io.Serializable;
 
-public class ServicioAdicional {
+public class ServicioAdicional implements Serializable{
 
     private String tipo;
     private String fecha;

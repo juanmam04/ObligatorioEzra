@@ -5,9 +5,9 @@ package dominio;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
+import java.io.Serializable;
 
-public class Salida {
-
+public class Salida implements Serializable{
     private Entrada entrada;
     private String fecha;
     private String hora;
