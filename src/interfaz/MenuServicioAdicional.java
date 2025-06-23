@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class MenuServicioAdicional extends javax.swing.JFrame {
     
     private Sistema sistema;
+    private Vehiculo vehiculo;
 
     public MenuServicioAdicional(Sistema unSistema) {
         this.sistema = unSistema;
@@ -160,6 +161,12 @@ public class MenuServicioAdicional extends javax.swing.JFrame {
             !partes[0].matches("\\d{2}/\\d{2}/\\d{4}") || 
             !partes[1].matches("\\d{2}:\\d{2}")) {
             JOptionPane.showMessageDialog(this, "Formato inválido. Usá: dd/MM/yyyy HH:mm");
+            return;
+        }
+
+        
+        if (!sistema.vehiculoTieneEntradaRegistrada(vehiculo)) {
+            JOptionPane.showMessageDialog(this, "Este vehículo no tiene entrada registrada.");
             return;
         }
 

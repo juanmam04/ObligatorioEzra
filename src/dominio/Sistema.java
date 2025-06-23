@@ -268,6 +268,15 @@ public class Sistema implements Serializable {
         return servicios;
     }
     
+    public boolean vehiculoTieneEntradaRegistrada(Vehiculo vehiculo) {
+        for (Entrada e : listaEntradas) {
+            if (e.getVehiculo().equals(vehiculo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     // Reportes
     
     public ArrayList<String[]> generarHistorialDeVehiculo(String matricula, boolean entradas, boolean salidas, boolean servicios, boolean todos, boolean ascendente) {
